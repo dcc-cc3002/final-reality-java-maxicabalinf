@@ -22,10 +22,7 @@ import org.jetbrains.annotations.NotNull;
  * @author ~Your name~
  * @version 2.0
  */
-public class BlackMage extends AbstractPlayerCharacter {
-
-  private int currentMp;
-  private final int maxMp;
+public class BlackMage extends AbstractMage {
 
   /**
    * Creates a new Black Mage.
@@ -40,12 +37,8 @@ public class BlackMage extends AbstractPlayerCharacter {
    *     the queue with the characters waiting for their turn
    */
   protected BlackMage(final @NotNull String name, final int maxHp, final int defense,
-      int maxMp, final @NotNull BlockingQueue<GameCharacter> turnsQueue)
-      throws InvalidStatValueException {
-    super(name, maxHp, defense, turnsQueue);
-    Require.statValueAtLeast(0, maxMp, "Max MP");
-    this.maxMp = maxMp;
-    this.currentMp = maxMp;
+  int maxMp, final @NotNull BlockingQueue<GameCharacter> turnsQueue) throws InvalidStatValueException {
+    super(name, maxHp, defense, maxMp, turnsQueue);
   }
 
   // region : ACCESSORS
@@ -58,12 +51,12 @@ public class BlackMage extends AbstractPlayerCharacter {
   }
 
   /**
-   * Sets the character's current MP.
+   * Sets the character's current MP to {@code newMp}.
    */
-  private void setCurrentMp(final int currentMp) throws InvalidStatValueException {
-    Require.statValueAtLeast(0, currentMp, "Current MP");
-    Require.statValueAtMost(maxMp, currentMp, "Current MP");
-    this.currentMp = currentMp;
+  private void setCurrentMp(final int newMp) throws InvalidStatValueException {
+    Require.statValueAtLeast(0, newMp, "Current MP");
+    Require.statValueAtMost(maxMp, newMp, "Current MP");
+    this.currentMp = newMp;
   }
 
   /**
