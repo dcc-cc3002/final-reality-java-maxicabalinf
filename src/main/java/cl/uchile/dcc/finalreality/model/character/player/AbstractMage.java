@@ -3,10 +3,20 @@ package cl.uchile.dcc.finalreality.model.character.player;
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.Require;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.weapon.Weapon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * A class that holds all the information of a <i>mage</i> character in the game. A mage is a {@link PlayerCharacter}
+ * who can use magic and cast spells.
+ *
+ * <p>Mage characters aside from having all {@link GameCharacter} fields ({@code name}, {@code maxHp}, {@code defense},
+ * {@code turnsQueue}) and abilities, have <i>mana points</i> ({@code currentMp}, {@code maxMp}).
+ *
+ * @author <a href="https://github.com/maxicabalinf">Maximiliano Cabalin F.</a>
+ */
 abstract public class AbstractMage extends AbstractPlayerCharacter {
     protected int currentMp;
     protected final int maxMp;
