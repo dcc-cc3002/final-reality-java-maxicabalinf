@@ -28,4 +28,30 @@ abstract public class AbstractMage extends AbstractPlayerCharacter {
         this.maxMp = maxMp;
         this.currentMp = maxMp;
     }
+
+    // region : ACCESSORS
+
+    /**
+     * Returns the character's current MP.
+     */
+    private int getCurrentMp() {
+        return currentMp;
+    }
+
+    /**
+     * Sets the character's current MP to {@code newMp}.
+     */
+    private void setCurrentMp(final int newMp) throws InvalidStatValueException {
+        Require.statValueAtLeast(0, newMp, "Current MP");
+        Require.statValueAtMost(maxMp, newMp, "Current MP");
+        this.currentMp = newMp;
+    }
+
+    /**
+     * Returns the character's max MP.
+     */
+    private int getMaxMp() {
+        return maxMp;
+    }
+    // endregion
 }

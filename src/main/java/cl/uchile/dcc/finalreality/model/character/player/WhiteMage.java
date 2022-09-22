@@ -40,27 +40,6 @@ public class WhiteMage extends AbstractMage {
   int maxMp, final @NotNull BlockingQueue<GameCharacter> turnsQueue) throws InvalidStatValueException {
     super(name, maxHp, defense, maxMp, turnsQueue);
   }
-  // region : ACCESSORS
-
-  /**
-   * Returns the current MP of the character.
-   */
-  public int getCurrentMp() { return currentMp; }
-
-  /**
-   * Sets the character's current MP to {@code newMp}.
-   */
-  public void setCurrentMp(final int newMp) throws InvalidStatValueException {
-    Require.statValueAtLeast(0, newMp, "Current MP");
-    Require.statValueAtMost(maxMp, newMp, "Current MP");
-    this.currentMp = newMp;
-  }
-
-  /**
-   * Returns the character's max MP.
-   */
-  public int getMaxMp() { return maxMp; }
-  // endregion
 
   // region : UTILITY METHODS
   @Override
