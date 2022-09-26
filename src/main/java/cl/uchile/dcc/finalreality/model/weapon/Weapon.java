@@ -38,14 +38,14 @@ public class Weapon {
    * Returns the weapon's name.
    */
 
-  private String getName() {
+  public String getName() {
     return name;
   }
 
   /**
    * Returns the weapon's damage.
    */
-  private int getDamage() {
+  public int getDamage() {
     return damage;
   }
 
@@ -59,7 +59,7 @@ public class Weapon {
   /**
    * Returns the weapon's type.
    */
-  private String getType() {
+  public String getType() {
     return type;
   }
   // endregion

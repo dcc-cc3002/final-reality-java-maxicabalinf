@@ -17,9 +17,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractCharacter implements GameCharacter {
 
-  private int currentHp;
-  protected int maxHp;
-  protected int defense;
+  protected int currentHp;
+  protected final int maxHp;
+  protected final int defense;
   protected final BlockingQueue<GameCharacter> turnsQueue;
   protected final String name;
   private ScheduledExecutorService scheduledExecutor;

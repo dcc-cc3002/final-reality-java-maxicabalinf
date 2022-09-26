@@ -29,7 +29,7 @@ public final class Staff extends Weapon {
   /**
    * Returns the weapon's magic damage.
    */
-  private int getMagicDamage() {
+  public int getMagicDamage() {
     return magicDamage;
   }
   // endregion
