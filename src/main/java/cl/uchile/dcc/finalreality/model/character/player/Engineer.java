@@ -23,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public class Engineer extends AbstractPlayerCharacter {
 
-
   /**
    * Creates a new engineer.
    *

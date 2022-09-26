@@ -6,44 +6,63 @@ import java.util.Objects;
  * A class that holds all the information of a weapon.
  *
  * @author <a href="https://www.github.com/r8vnhill">R8V</a>
- * @author ~Your name~
  */
 public class Weapon {
 
-  private final String name;
-  private final int damage;
-  private final int weight;
-  private final WeaponType type;
+  protected final String name;
+  protected final int damage;
+  protected final int weight;
+  protected final String type;
 
   /**
-   * Creates a weapon with a name, a base damage, speed, and it's type.
+   * Creates a new weapon.
+   *
+   * @param name
+   *     the character's name
+   * @param damage
+   *     the character's max hp
+   * @param weight
+   *     the character's defense
+   * @param type
+   *     the queue with the characters waiting for their turn
    */
   public Weapon(final String name, final int damage, final int weight,
-      final WeaponType type) {
+      final String type) {
     this.name = name;
     this.damage = damage;
     this.weight = weight;
     this.type = type;
   }
+  // region: UTILITY METHODS
+  /**
+   * Returns the weapon's name.
+   */
 
   private String getName() {
     return name;
   }
 
+  /**
+   * Returns the weapon's damage.
+   */
   private int getDamage() {
     return damage;
   }
 
   /**
-   * Returns the weight of the weapon.
+   * Returns the weapon's weight.
    */
   public int getWeight() {
     return weight;
   }
 
-  private WeaponType getType() {
+  /**
+   * Returns the weapon's type.
+   */
+  private String getType() {
     return type;
   }
+  // endregion
 
   @Override
   public boolean equals(final Object o) {
@@ -57,7 +76,7 @@ public class Weapon {
         && damage == weapon.damage
         && weight == weapon.weight
         && name.equals(weapon.name)
-        && type == weapon.type;
+        && type.equals(weapon.type);
   }
 
   @Override

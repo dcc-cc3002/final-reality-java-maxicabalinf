@@ -19,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
  * A Black Mage is a type of player character that can cast black magic.
  *
  * @author <a href="https://www.github.com/r8vnhill">R8V</a>
- * @author ~Your name~
  * @version 2.0
  */
 public class BlackMage extends AbstractMage {
@@ -37,7 +36,8 @@ public class BlackMage extends AbstractMage {
    *     the queue with the characters waiting for their turn
    */
   protected BlackMage(final @NotNull String name, final int maxHp, final int defense,
-  int maxMp, final @NotNull BlockingQueue<GameCharacter> turnsQueue) throws InvalidStatValueException {
+      int maxMp, final @NotNull BlockingQueue<GameCharacter> turnsQueue)
+      throws InvalidStatValueException {
     super(name, maxHp, defense, maxMp, turnsQueue);
   }
 
