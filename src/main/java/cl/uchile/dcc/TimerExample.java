@@ -9,20 +9,20 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * An example of the game dynamic.
+ * An example of the game timer.
  *
  * @author <a href="https://www.github.com/r8vnhill">R8V</a>
  */
 public class TimerExample {
   /**
-   * Runs the game example.
+   * Runs the timer example.
    *
    * @param args
    *     the command line arguments
    * @throws InterruptedException
    *     for activating/deactivating the {@code queue} when needed
    * @throws InvalidStatValueException
-   *     when {@link cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter} is given
+   *     when {@link GameCharacter} is given
    *     out-of-bounds values
    */
   public static void main(String[] args)
