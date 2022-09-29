@@ -42,7 +42,7 @@ public final class Require {
   public static void statValueAtLeast(int least, int actualStat, String statName)
       throws InvalidStatValueException {
     if (least > actualStat) {
-      throw new InvalidStatValueException(
+      throw new LesserStatValueException(
           "'%s'(%d) must be at least %d".formatted(statName, actualStat, least));
     }
   }
@@ -62,7 +62,7 @@ public final class Require {
   public static void statValueAtMost(final int most, final int actualStat,
       final String statName) throws InvalidStatValueException {
     if (most < actualStat) {
-      throw new InvalidStatValueException(
+      throw new GreaterStatValueException(
           "'%s'(%d) must be at most %d".formatted(statName, actualStat, most));
     }
   }
