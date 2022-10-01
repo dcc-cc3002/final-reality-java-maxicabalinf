@@ -8,6 +8,8 @@
 
 package cl.uchile.dcc.finalreality.exceptions;
 
+import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+
 /**
  * Class containing a series of methods to check if a condition is met.
  * If the condition is not met, an exception is thrown.
@@ -36,14 +38,16 @@ public final class Require {
    *     The actual value of the <i>Stat</i>.
    * @param statName
    *     The name of the <i>Stat</i>.
+   *     The character whose <i>Stat</i> value to change might be invalid.
    * @throws InvalidStatValueException
    *     If the {@code actualStat} is less than {@code least}.
    */
   public static void statValueAtLeast(int least, int actualStat, String statName)
       throws InvalidStatValueException {
     if (least > actualStat) {
-      throw new LesserStatValueException(
-          "'%s'(%d) must be at least %d".formatted(statName, actualStat, least));
+      throw new InvalidStatValueException(
+          "'%s'(%d) must be at least %d".formatted(statName, actualStat, least), least);
+
     }
   }
 
@@ -62,8 +66,8 @@ public final class Require {
   public static void statValueAtMost(final int most, final int actualStat,
       final String statName) throws InvalidStatValueException {
     if (most < actualStat) {
-      throw new GreaterStatValueException(
-          "'%s'(%d) must be at most %d".formatted(statName, actualStat, most));
+      throw new InvalidStatValueException(
+          "'%s'(%d) must be at most %d".formatted(statName, actualStat, most), most);
     }
   }
 }

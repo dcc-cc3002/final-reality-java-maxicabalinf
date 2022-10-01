@@ -15,12 +15,17 @@ package cl.uchile.dcc.finalreality.exceptions;
  * @author ~Your name~
  */
 public class InvalidStatValueException extends Exception {
+  public int bound;
 
   /**
    * Creates a new {@code InvalidStatValueException} with a {@code description} of the
    * error.
+   *
+   * @param description
+   *     description of the invalid stat.
    */
-  public InvalidStatValueException(String description) {
+  public InvalidStatValueException(String description, int bound) {
     super("The provided value is not a valid stat value. " + description);
+    this.bound = bound;
   }
 }

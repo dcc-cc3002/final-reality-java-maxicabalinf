@@ -43,7 +43,8 @@ public class Engineer extends AbstractPlayerCharacter {
 
   @Override
   public String toString() {
-    return "Engineer{maxHp=%d, defense=%d, name='%s'}".formatted(maxHp, defense, name);
+    return "Engineer{maxHp=%d, currentHp=%d, defense=%d, name='%s'}".formatted(
+      maxHp, currentHp, defense, name);
   }
 
   @Override
@@ -60,6 +61,7 @@ public class Engineer extends AbstractPlayerCharacter {
       return false;
     }
     return hashCode() == that.hashCode()
+        && currentHp == that.currentHp
         && name.equals(that.name)
         && maxHp == that.maxHp
         && defense == that.defense;
