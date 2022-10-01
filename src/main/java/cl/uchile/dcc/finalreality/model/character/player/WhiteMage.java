@@ -52,6 +52,8 @@ public class WhiteMage extends AbstractMage {
       return false;
     }
     return hashCode() == that.hashCode()
+        && currentHp == that.currentHp
+        && currentMp == that.currentMp
         && maxMp == that.maxMp
         && name.equals(that.name)
         && maxHp == that.maxHp
@@ -60,8 +62,8 @@ public class WhiteMage extends AbstractMage {
 
   @Override
   public String toString() {
-    return "WhiteMage{maxMp=%d, maxHp=%d, defense=%d, name='%s'}"
-            .formatted(maxMp, maxHp, defense, name);
+    return "WhiteMage{maxHp=%d, currentHp=%d, maxMp=%d, currentMp=%d, defense=%d, name='%s'}"
+      .formatted(maxMp, currentHp, maxMp, currentMp, defense, name);
   }
 
   @Override
