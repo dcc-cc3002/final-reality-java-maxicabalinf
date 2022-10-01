@@ -19,13 +19,9 @@ import org.jetbrains.annotations.NotNull;
  * A Black Mage is a type of player character that can cast black magic.
  *
  * @author <a href="https://www.github.com/r8vnhill">R8V</a>
- * @author ~Your name~
  * @version 2.0
  */
-public class BlackMage extends AbstractPlayerCharacter {
-
-  private int currentMp;
-  private final int maxMp;
+public class BlackMage extends AbstractMage {
 
   /**
    * Creates a new Black Mage.
@@ -39,40 +35,11 @@ public class BlackMage extends AbstractPlayerCharacter {
    * @param turnsQueue
    *     the queue with the characters waiting for their turn
    */
-  protected BlackMage(final @NotNull String name, final int maxHp, final int defense,
+  public BlackMage(final @NotNull String name, final int maxHp, final int defense,
       int maxMp, final @NotNull BlockingQueue<GameCharacter> turnsQueue)
       throws InvalidStatValueException {
-    super(name, maxHp, defense, turnsQueue);
-    Require.statValueAtLeast(0, maxMp, "Max MP");
-    this.maxMp = maxMp;
-    this.currentMp = maxMp;
+    super(name, maxHp, defense, maxMp, turnsQueue);
   }
-
-  // region : ACCESSORS
-
-  /**
-   * Returns the character's current MP.
-   */
-  private int getCurrentMp() {
-    return currentMp;
-  }
-
-  /**
-   * Sets the character's current MP.
-   */
-  private void setCurrentMp(final int currentMp) throws InvalidStatValueException {
-    Require.statValueAtLeast(0, currentMp, "Current MP");
-    Require.statValueAtMost(maxMp, currentMp, "Current MP");
-    this.currentMp = currentMp;
-  }
-
-  /**
-   * Returns the character's max MP.
-   */
-  private int getMaxMp() {
-    return maxMp;
-  }
-  // endregion
 
   // region : UTILITY METHODS
   @Override
@@ -84,6 +51,8 @@ public class BlackMage extends AbstractPlayerCharacter {
       return false;
     }
     return hashCode() == that.hashCode()
+        && currentHp == that.currentHp
+        && currentMp == that.currentMp
         && name.equals(that.name)
         && maxHp == that.maxHp
         && defense == that.defense
@@ -92,8 +61,8 @@ public class BlackMage extends AbstractPlayerCharacter {
 
   @Override
   public String toString() {
-    return "BlackMage{currentMp=%d, maxMp=%d, maxHp=%d, defense=%d, name='%s'}"
-        .formatted(currentMp, maxMp, maxHp, defense, name);
+    return "BlackMage{maxHp=%d, currentHp=%d, maxMp=%d, currentMp=%d, defense=%d, name='%s'}"
+      .formatted(maxMp,currentHp, maxMp, currentMp, defense, name);
   }
 
   @Override

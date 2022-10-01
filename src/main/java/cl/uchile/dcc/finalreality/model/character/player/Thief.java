@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
  * @author ~Your name~
  * @version 2.0
  */
-public class Thief extends AbstractPlayerCharacter {
+public final class Thief extends AbstractPlayerCharacter {
 
   /**
    * Creates a new Thief.
@@ -56,6 +56,7 @@ public class Thief extends AbstractPlayerCharacter {
       return false;
     }
     return hashCode() == that.hashCode()
+        && currentHp == that.currentHp
         && name.equals(that.name)
         && maxHp == that.maxHp
         && defense == that.defense;
@@ -63,6 +64,7 @@ public class Thief extends AbstractPlayerCharacter {
 
   @Override
   public String toString() {
-    return "Thief{maxHp=%d, defense=%d, name='%s'}".formatted(maxHp, defense, name);
+    return "Thief{maxHp=%d, currentHp=%d, defense=%d, name='%s'}".formatted(
+      maxHp, currentHp, defense, name);
   }
 }
