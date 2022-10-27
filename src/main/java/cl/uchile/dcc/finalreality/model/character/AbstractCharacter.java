@@ -17,9 +17,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class AbstractCharacter implements GameCharacter {
 
-  private int currentHp;
-  protected int maxHp;
-  protected int defense;
+  protected int currentHp;
+  protected final int maxHp;
+  protected final int defense;
   protected final BlockingQueue<GameCharacter> turnsQueue;
   protected final String name;
   private ScheduledExecutorService scheduledExecutor;
@@ -30,7 +30,7 @@ public abstract class AbstractCharacter implements GameCharacter {
    * @param name
    *     the character's name
    * @param maxHp
-   *     the character's max hp
+   *     the character's max HP
    * @param defense
    *     the character's defense
    * @param turnsQueue
@@ -76,30 +76,46 @@ public abstract class AbstractCharacter implements GameCharacter {
     scheduledExecutor.shutdown();
   }
 
+  // region : ACCESSORS
   @Override
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets the character's current HP to {@code newHp}.
+   */
+  @Override
+  public void setCurrentHp(int newHp) throws InvalidStatValueException {
+    Require.statValueAtLeast(0, newHp, "Current HP");
+    Require.statValueAtMost(maxHp, newHp, "Current HP");
+    currentHp = newHp;
+  }
+
+  /**
+   * Returns the character's current HP.
+   */
   @Override
   public int getCurrentHp() {
     return currentHp;
   }
 
+  /**
+   * Returns the character's max HP.
+   */
   @Override
   public int getMaxHp() {
     return maxHp;
   }
 
+  /**
+   * Returns the character's max HP.
+   */
   @Override
   public int getDefense() {
     return defense;
   }
 
-  @Override
-  public void setCurrentHp(int hp) throws InvalidStatValueException {
-    Require.statValueAtLeast(0, hp, "Current HP");
-    Require.statValueAtMost(maxHp, hp, "Current HP");
-    currentHp = hp;
-  }
+
+  // endregion
 }
