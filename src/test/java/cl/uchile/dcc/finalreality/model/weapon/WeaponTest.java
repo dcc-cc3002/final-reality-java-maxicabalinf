@@ -2,8 +2,15 @@ package cl.uchile.dcc.finalreality.model.weapon;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.character.player.Engineer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class WeaponTest {
   Weapon sword;
@@ -62,13 +69,17 @@ public class WeaponTest {
   }
 
   @Test
-  public void testEquals() {
+  public void testEquals() throws InvalidStatValueException {
     assertEquals(new Weapon("myWeapon", 20, 15, "SWORD"), sword);
     assertNotEquals(new Weapon("myWeapon", 20, 9, "SWORD"), sword);
     assertEquals(new Staff("oneStaff", 78, 29, 10), staff1);
     assertNotEquals(axe, sword);
     assertNotEquals(staff2, staff1);
     assertNotEquals(axe, staff1);
+    BlockingQueue<GameCharacter> queue = new LinkedBlockingQueue<>();
+    Engineer eng = new Engineer("eng", 29, 48, queue);
+    assertFalse(axe.equals(eng));
+    assertFalse(staff1.equals(eng));
   }
 
   @Test
