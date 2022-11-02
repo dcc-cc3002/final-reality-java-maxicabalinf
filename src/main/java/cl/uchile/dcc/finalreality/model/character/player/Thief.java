@@ -9,7 +9,9 @@
 package cl.uchile.dcc.finalreality.model.character.player;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.weapon.Weapon;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
  * {@code Bow}s.
  *
  * @author <a href="https://www.github.com/r8vnhill">R8V</a>
- * @author ~Your name~
+ * @author <a href="https://www.github.com/maxicabalinf">Maximiliano Cabalin F.</a>
  * @version 2.0
  */
 public final class Thief extends AbstractPlayerCharacter {
@@ -40,6 +42,19 @@ public final class Thief extends AbstractPlayerCharacter {
       final @NotNull BlockingQueue<GameCharacter> turnsQueue)
       throws InvalidStatValueException {
     super(name, maxHp, defense, turnsQueue);
+  }
+
+  /**
+   * Equips a {@link Weapon} to a {@link Thief}.
+   *
+   * @param weapon
+   *     the {@link Weapon} to be equipped
+   * @throws RestrictedWeaponException
+   *     error thrown if {@link Thief} is unable to equip such {@code weapon}
+   */
+  @Override
+  public void equip(Weapon weapon) throws RestrictedWeaponException {
+    weapon.equipTo(this);
   }
 
   @Override

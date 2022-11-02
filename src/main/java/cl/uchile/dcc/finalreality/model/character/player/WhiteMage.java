@@ -9,8 +9,9 @@
 package cl.uchile.dcc.finalreality.model.character.player;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
-import cl.uchile.dcc.finalreality.exceptions.Require;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.weapon.Weapon;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import org.jetbrains.annotations.NotNull;
@@ -40,6 +41,19 @@ public class WhiteMage extends AbstractMage {
       int maxMp, final @NotNull BlockingQueue<GameCharacter> turnsQueue)
       throws InvalidStatValueException {
     super(name, maxHp, defense, maxMp, turnsQueue);
+  }
+
+  /**
+   * Equips a {@link Weapon} to a {@link WhiteMage}.
+   *
+   * @param weapon
+   *     the {@link Weapon} to be equipped
+   * @throws RestrictedWeaponException
+   *     error thrown if {@link WhiteMage} is unable to equip such {@code weapon}
+   */
+  @Override
+  public void equip(Weapon weapon) throws RestrictedWeaponException {
+    weapon.equipTo(this);
   }
 
   // region : UTILITY METHODS

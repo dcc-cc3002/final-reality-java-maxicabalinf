@@ -23,6 +23,8 @@ public class InvalidStatValueException extends Exception {
    *
    * @param description
    *     description of the invalid stat.
+   * @param bound
+   *     the boundary that was not met by the stat.
    */
   public InvalidStatValueException(String description, int bound) {
     super("The provided value is not a valid stat value. " + description);

@@ -9,8 +9,10 @@
 package cl.uchile.dcc.finalreality.model.character.player;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.AbstractCharacter;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.weapon.AbstractWeapon;
 import cl.uchile.dcc.finalreality.model.weapon.Weapon;
 import java.util.concurrent.BlockingQueue;
 import org.jetbrains.annotations.NotNull;
@@ -20,14 +22,13 @@ import org.jetbrains.annotations.NotNull;
  *
  * <p>All player characters have a {@code name}, a maximum amount of <i>hit points</i>
  * ({@code maxHp}), a {@code defense} value, a queue of {@link GameCharacter}s that are
- * waiting for their turn ({@code turnsQueue}), and can equip a {@link Weapon}.
+ * waiting for their turn ({@code turnsQueue}), and can equip a {@link AbstractWeapon}.
  *
  * @author <a href="https://www.github.com/r8vnhill">R8V</a>
  * @author ~Your name~
  */
 public abstract class AbstractPlayerCharacter extends AbstractCharacter implements
     PlayerCharacter {
-
   protected Weapon equippedWeapon = null;
 
   /**
@@ -53,9 +54,7 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
    * Equips a weapon to the character.
    */
   @Override
-  public void equip(Weapon weapon) {
-    this.equippedWeapon = weapon;
-  }
+  public abstract void equip(Weapon weapon) throws RestrictedWeaponException;
 
   /**
    * Returns the character's equipped weapon.
@@ -63,5 +62,10 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
   @Override
   public Weapon getEquippedWeapon() {
     return equippedWeapon;
+  }
+
+
+  public void setEquippedWeapon(Weapon weapon) {
+    this.equippedWeapon = weapon;
   }
 }

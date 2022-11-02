@@ -9,8 +9,9 @@
 package cl.uchile.dcc.finalreality.model.character.player;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
-import cl.uchile.dcc.finalreality.exceptions.Require;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.weapon.Weapon;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +42,19 @@ public class BlackMage extends AbstractMage {
     super(name, maxHp, defense, maxMp, turnsQueue);
   }
 
+  /**
+   * Equips a {@link Weapon} to a {@link BlackMage}.
+   *
+   * @param weapon
+   *     the {@link Weapon} to be equipped
+   * @throws RestrictedWeaponException
+   *     error thrown if {@link BlackMage} is unable to equip such {@code weapon}
+   */
+  @Override
+  public void equip(Weapon weapon) throws RestrictedWeaponException {
+    weapon.equipTo(this);
+  }
+
   // region : UTILITY METHODS
   @Override
   public boolean equals(final Object o) {
@@ -62,7 +76,7 @@ public class BlackMage extends AbstractMage {
   @Override
   public String toString() {
     return "BlackMage{maxHp=%d, currentHp=%d, maxMp=%d, currentMp=%d, defense=%d, name='%s'}"
-      .formatted(maxMp,currentHp, maxMp, currentMp, defense, name);
+      .formatted(maxMp, currentHp, maxMp, currentMp, defense, name);
   }
 
   @Override
