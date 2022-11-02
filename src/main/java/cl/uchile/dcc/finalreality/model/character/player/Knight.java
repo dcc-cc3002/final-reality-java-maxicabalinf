@@ -9,7 +9,9 @@
 package cl.uchile.dcc.finalreality.model.character.player;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.weapon.Weapon;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import org.jetbrains.annotations.NotNull;
@@ -38,9 +40,23 @@ public class Knight extends AbstractPlayerCharacter {
     super(name, maxHp, defense, turnsQueue);
   }
 
+  /**
+   * Equips a {@link Weapon} to a {@link Knight}.
+   *
+   * @param weapon
+   *     the {@link Weapon} to be equipped
+   * @throws RestrictedWeaponException
+   *     error thrown if {@link Knight} is unable to equip such {@code weapon}
+   */
+  @Override
+  public void equip(Weapon weapon) throws RestrictedWeaponException {
+    weapon.equipTo(this);
+  }
+
   @Override
   public String toString() {
-    return "Knight{maxHp=%d, defense=%d, name='%s'}".formatted(maxHp, defense, name);
+    return "Knight{maxHp=%d, currentHp=%d, defense=%d, name='%s'}".formatted(
+      maxHp, currentHp, defense, name);
   }
 
   @Override
@@ -57,6 +73,7 @@ public class Knight extends AbstractPlayerCharacter {
       return false;
     }
     return hashCode() == that.hashCode()
+        && currentHp == that.currentHp
         && name.equals(that.name)
         && maxHp == that.maxHp
         && defense == that.defense;

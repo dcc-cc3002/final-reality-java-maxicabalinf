@@ -9,8 +9,9 @@
 package cl.uchile.dcc.finalreality.model.character.player;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
-import cl.uchile.dcc.finalreality.exceptions.Require;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.weapon.Weapon;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import org.jetbrains.annotations.NotNull;
@@ -21,10 +22,8 @@ import org.jetbrains.annotations.NotNull;
  * @author <a href="https://www.github.com/r8vnhill">R8V</a>
  * @author ~Your name~
  */
-public class WhiteMage extends AbstractPlayerCharacter {
 
-  private int currentMp;
-  private final int maxMp;
+public class WhiteMage extends AbstractMage {
 
   /**
    * Creates a new character.
@@ -38,14 +37,26 @@ public class WhiteMage extends AbstractPlayerCharacter {
    * @param turnsQueue
    *     the queue with the characters waiting for their turn
    */
-  protected WhiteMage(final @NotNull String name, final int maxHp, final int defense,
+  public WhiteMage(final @NotNull String name, final int maxHp, final int defense,
       int maxMp, final @NotNull BlockingQueue<GameCharacter> turnsQueue)
       throws InvalidStatValueException {
-    super(name, maxHp, defense, turnsQueue);
-    this.maxMp = maxMp;
-    this.currentMp = maxMp;
+    super(name, maxHp, defense, maxMp, turnsQueue);
   }
 
+  /**
+   * Equips a {@link Weapon} to a {@link WhiteMage}.
+   *
+   * @param weapon
+   *     the {@link Weapon} to be equipped
+   * @throws RestrictedWeaponException
+   *     error thrown if {@link WhiteMage} is unable to equip such {@code weapon}
+   */
+  @Override
+  public void equip(Weapon weapon) throws RestrictedWeaponException {
+    weapon.equipTo(this);
+  }
+
+  // region : UTILITY METHODS
   @Override
   public boolean equals(final Object o) {
     if (this == o) {
@@ -55,6 +66,8 @@ public class WhiteMage extends AbstractPlayerCharacter {
       return false;
     }
     return hashCode() == that.hashCode()
+        && currentHp == that.currentHp
+        && currentMp == that.currentMp
         && maxMp == that.maxMp
         && name.equals(that.name)
         && maxHp == that.maxHp
@@ -62,36 +75,14 @@ public class WhiteMage extends AbstractPlayerCharacter {
   }
 
   @Override
-  public int hashCode() {
-    return Objects.hash(WhiteMage.class, name, maxHp, defense, maxMp);
+  public String toString() {
+    return "WhiteMage{maxHp=%d, currentHp=%d, maxMp=%d, currentMp=%d, defense=%d, name='%s'}"
+      .formatted(maxMp, currentHp, maxMp, currentMp, defense, name);
   }
 
   @Override
-  public String toString() {
-    return "WhiteMage{maxMp=%d, maxHp=%d, defense=%d, name='%s'}"
-        .formatted(maxMp, maxHp, defense, name);
+  public int hashCode() {
+    return Objects.hash(WhiteMage.class, name, maxHp, defense, maxMp);
   }
-
-  /**
-   * Returns the current MP of the character.
-   */
-  public int getCurrentMp() {
-    return currentMp;
-  }
-
-  /**
-   * Sets the current MP of the character to {@code newMp}.
-   */
-  public void setCurrentMp(final int newMp) throws InvalidStatValueException {
-    Require.statValueAtLeast(0, newMp, "Current MP");
-    Require.statValueAtMost(maxMp, newMp, "Current MP");
-    this.currentMp = newMp;
-  }
-
-  /**
-   * Returns the max MP of the character.
-   */
-  public int getMaxMp() {
-    return maxMp;
-  }
+  // endregion
 }
