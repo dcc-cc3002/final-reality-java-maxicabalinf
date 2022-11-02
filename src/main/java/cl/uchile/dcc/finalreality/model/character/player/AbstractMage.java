@@ -3,7 +3,6 @@ package cl.uchile.dcc.finalreality.model.character.player;
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.Require;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
-import cl.uchile.dcc.finalreality.model.weapon.Weapon;
 import java.util.concurrent.BlockingQueue;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author <a href="https://github.com/maxicabalinf">Maximiliano Cabalin F.</a>
  */
-public abstract class AbstractMage extends AbstractPlayerCharacter {
+public abstract class AbstractMage extends AbstractPlayerCharacter implements Mage {
   protected int currentMp;
   protected final int maxMp;
 
@@ -35,6 +34,7 @@ public abstract class AbstractMage extends AbstractPlayerCharacter {
   /**
    * Returns the character's current MP.
    */
+  @Override
   public int getCurrentMp() {
     return currentMp;
   }
@@ -42,6 +42,7 @@ public abstract class AbstractMage extends AbstractPlayerCharacter {
   /**
    * Sets the character's current MP to {@code newMp}.
    */
+  @Override
   public void setCurrentMp(final int newMp) throws InvalidStatValueException {
     Require.statValueAtLeast(0, newMp, "Current MP");
     Require.statValueAtMost(maxMp, newMp, "Current MP");
@@ -51,6 +52,7 @@ public abstract class AbstractMage extends AbstractPlayerCharacter {
   /**
    * Returns the character's max MP.
    */
+  @Override
   public int getMaxMp() {
     return maxMp;
   }

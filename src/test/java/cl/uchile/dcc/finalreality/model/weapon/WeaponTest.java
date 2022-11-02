@@ -2,55 +2,44 @@ package cl.uchile.dcc.finalreality.model.weapon;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
-import cl.uchile.dcc.finalreality.model.character.GameCharacter;
-import cl.uchile.dcc.finalreality.model.character.player.Engineer;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class WeaponTest {
-  Weapon sword;
-  Weapon axe;
-  Staff staff1;
-  Staff staff2;
+  Weapon axe, bow, knife, sword, staff1, staff2;
 
   @BeforeEach
   public void setUp() {
-    sword = new Weapon("myWeapon", 20, 15, "SWORD");
-    axe = new Weapon("myAxe", 40, 14, "AXE");
-    staff1 = new Staff("oneStaff", 78, 29, 10);
-    staff2 = new Staff("anotherStaff", 83, 12, 65);
+    axe = new Axe("axe", 40, 14);
+    bow = new Bow("bow", 40, 2);
+    knife = new Knife("knife", 12, 44);
+    sword = new Sword("sword", 20, 15);
+    staff1 = new Staff("staff1", 78, 29, 10);
+    staff2 = new Staff("staff2", 83, 12, 65);
   }
 
   @Test
   public void getNameTest() {
     // getName() must return the declared name of the weapon.
-    assertEquals("myWeapon", sword.getName());
-    assertEquals("oneStaff", staff1.getName());
+    assertEquals("sword", sword.getName());
     assertNotEquals("a", sword.getName());
-    assertNotEquals(staff2.getName(), staff1.getName());
   }
 
   @Test
   public void getDamage() {
-    // getDamage() must return the declared damage of the weapon.
+    // getDamage() must return the declared weapon damage.
     assertEquals(20, sword.getDamage());
-    assertEquals(78, staff1.getDamage());
     assertNotEquals(3, sword.getDamage());
-    assertNotEquals(34, staff1.getDamage());
   }
 
   @Test
   public void getWeight() {
     // getWeight() must return the declared weight of the weapon.
     assertEquals(15, sword.getWeight());
-    assertEquals(10, staff1.getWeight());
     assertNotEquals(0, sword.getWeight());
-    assertNotEquals(staff2.getWeight(), staff1.getWeight());
   }
 
   @Test
@@ -58,40 +47,47 @@ public class WeaponTest {
     // getType() must return the declared type of the weapon.
     assertEquals("SWORD", sword.getType());
     assertNotEquals("other", sword.getType());
-    assertEquals(staff2.getType(), staff1.getType());
-    assertNotEquals(sword.getType(), staff1.getType());
   }
 
   @Test
-  public void getMagicDamage() {
+  public void getMagicDamage() throws MissingStatException {
+    // Only Staffs have magic damage.
+    assertThrows(MissingStatException.class,
+      () -> axe.getMagicDamage());
+    assertThrows(MissingStatException.class,
+      () -> bow.getMagicDamage());
+    assertThrows(MissingStatException.class,
+      () -> knife.getMagicDamage());
+    assertThrows(MissingStatException.class,
+      () -> sword.getMagicDamage());
+
     assertEquals(29, staff1.getMagicDamage());
     assertNotEquals(staff2.getMagicDamage(), staff1.getMagicDamage());
   }
 
   @Test
-  public void testEquals() throws InvalidStatValueException {
-    assertEquals(new Weapon("myWeapon", 20, 15, "SWORD"), sword);
-    assertNotEquals(new Weapon("myWeapon", 20, 9, "SWORD"), sword);
-    assertEquals(new Staff("oneStaff", 78, 29, 10), staff1);
-    assertNotEquals(axe, sword);
-    assertNotEquals(staff2, staff1);
-    assertNotEquals(axe, staff1);
-    BlockingQueue<GameCharacter> queue = new LinkedBlockingQueue<>();
-    Engineer eng = new Engineer("eng", 29, 48, queue);
-    assertFalse(axe.equals(eng));
-    assertFalse(staff1.equals(eng));
+  public void testEquals() {
+    assertEquals(new Axe("axe", 40, 14), axe);
+    assertEquals(new Bow("bow", 40, 2), bow);
+    assertEquals(new Knife("knife", 12, 44), knife);
+    assertEquals(
+      new Staff("staff1", 78, 29, 10), staff1
+    );
+    assertEquals(new Sword("sword", 20, 15), sword);
+    assertNotEquals(knife, axe);
   }
 
   @Test
   public void testHashCode() {
     assertEquals(
-      new Weapon("myWeapon", 20, 15, "SWORD").hashCode(), sword.hashCode()
+      new Sword("sword", 20, 15).hashCode(), sword.hashCode()
     );
     assertNotEquals(
-      new Weapon("myWeapon", 20, 9, "SWORD").hashCode(), sword.hashCode()
+      new Sword("sword", 20, 9).hashCode(), sword.hashCode()
     );
     assertEquals(
-      new Staff("oneStaff", 78, 29, 10).hashCode(), staff1.hashCode()
+      new Staff("staff1", 78, 29, 10).hashCode(),
+      staff1.hashCode()
     );
     assertNotEquals(staff2.hashCode(), staff1.hashCode());
     assertNotEquals(axe.hashCode(), sword.hashCode());
@@ -99,16 +95,12 @@ public class WeaponTest {
 
   @Test
   public void testToString() {
+    // toString() must return something like "Weapon{name='%s', damage=%d, weight=%d, type=%s}"
     assertEquals(
-      new Weapon("myWeapon", 20, 15, "SWORD").toString(), sword.toString()
+      new Sword("sword", 20, 15).toString(), sword.toString()
     );
-    assertEquals(
-      new Staff("oneStaff", 78, 29, 10).toString(), staff1.toString()
-    );
-    assertNotEquals(staff2.toString(), staff1.toString());
     assertNotEquals(
-      new Weapon("myWeapon", 20, 9, "SWORD").toString(), sword.toString()
+      "sword", sword.toString()
     );
-    assertNotEquals(axe.hashCode(), sword.hashCode());
   }
 }

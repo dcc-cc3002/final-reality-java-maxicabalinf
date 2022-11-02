@@ -1,92 +1,97 @@
 package cl.uchile.dcc.finalreality.model.weapon;
 
-import java.util.Objects;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
+import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.character.player.BlackMage;
+import cl.uchile.dcc.finalreality.model.character.player.Engineer;
+import cl.uchile.dcc.finalreality.model.character.player.Knight;
+import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
+import cl.uchile.dcc.finalreality.model.character.player.Thief;
+import cl.uchile.dcc.finalreality.model.character.player.WhiteMage;
 
 /**
- * A class that holds all the information of a weapon.
+ * {@code Weapon}s are objects used by {@link PlayerCharacter}s to attack {@link GameCharacter}s.
  *
- * @author <a href="https://www.github.com/r8vnhill">R8V</a>
+ * @author <a href="https://www.github.com/maxicabalinf">Maximiliano Cabalin F.</a>
  */
-public class Weapon {
+public interface Weapon {
 
-  protected final String name;
-  protected final int damage;
-  protected final int weight;
-  protected final String type;
-
-  /**
-   * Creates a new weapon.
-   *
-   * @param name
-   *     the character's name
-   * @param damage
-   *     the character's max hp
-   * @param weight
-   *     the character's defense
-   * @param type
-   *     the queue with the characters waiting for their turn
-   */
-  public Weapon(final String name, final int damage, final int weight,
-      final String type) {
-    this.name = name;
-    this.damage = damage;
-    this.weight = weight;
-    this.type = type;
-  }
-  // region: UTILITY METHODS
   /**
    * Returns the weapon's name.
    */
-
-  public String getName() {
-    return name;
-  }
+  String getName();
 
   /**
    * Returns the weapon's damage.
    */
-  public int getDamage() {
-    return damage;
-  }
+  int getDamage();
+
+  /**
+   * Returns the weapon's magic damage.
+   *
+   * @throws MissingStatException
+   *     when a weapon does not have magic damage
+   */
+  int getMagicDamage() throws MissingStatException;
 
   /**
    * Returns the weapon's weight.
    */
-  public int getWeight() {
-    return weight;
-  }
+  int getWeight();
 
   /**
    * Returns the weapon's type.
    */
-  public String getType() {
-    return type;
-  }
-  // endregion
+  String getType();
 
-  @Override
-  public boolean equals(final Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof final Weapon weapon)) {
-      return false;
-    }
-    return hashCode() == weapon.hashCode()
-        && damage == weapon.damage
-        && weight == weapon.weight
-        && name.equals(weapon.name)
-        && type.equals(weapon.type);
-  }
+  /**
+   * Equips a weapon to a {@link Thief}.
+   *
+   * @param thief
+   *     the {@link Thief} to be equipped a weapon
+   * @throws RestrictedWeaponException
+   *     if {@link Thief} is unable to equip such weapon
+   */
+  void equipTo(Thief thief) throws RestrictedWeaponException;
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(Weapon.class, name, damage, weight, type);
-  }
+  /**
+   * Equips a weapon to a {@link Engineer}.
+   *
+   * @param engineer
+   *     the {@link Engineer} to be equipped a weapon
+   * @throws RestrictedWeaponException
+   *     if {@link Engineer} is unable to equip such weapon
+   */
+  void equipTo(Engineer engineer) throws RestrictedWeaponException;
 
-  @Override
-  public String toString() {
-    return "Weapon{name='%s', damage=%d, weight=%d, type=%s}"
-        .formatted(name, damage, weight, type);
-  }
+  /**
+   * Equips a weapon to a {@link Knight}.
+   *
+   * @param knight
+   *     the {@link Knight} to be equipped a weapon
+   * @throws RestrictedWeaponException
+   *     if {@link Knight} is unable to equip such weapon
+   */
+  void equipTo(Knight knight) throws RestrictedWeaponException;
+
+  /**
+   * Equips a weapon to a {@link BlackMage}.
+   *
+   * @param blackMage
+   *     the {@link BlackMage} to be equipped a weapon
+   * @throws RestrictedWeaponException
+   *     if {@link BlackMage} is unable to equip such weapon
+   */
+  void equipTo(BlackMage blackMage) throws RestrictedWeaponException;
+
+  /**
+   * Equips a weapon to a {@link WhiteMage}.
+   *
+   * @param whiteMage
+   *     the {@link WhiteMage} to be equipped a weapon
+   * @throws RestrictedWeaponException
+   *     if {@link WhiteMage} is unable to equip such weapon
+   */
+  void equipTo(WhiteMage whiteMage) throws RestrictedWeaponException;
 }

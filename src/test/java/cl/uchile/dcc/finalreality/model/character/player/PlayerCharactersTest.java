@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.*;
 import cl.uchile.dcc.finalreality.model.weapon.*;
 import org.junit.jupiter.api.Test;
@@ -20,8 +21,7 @@ class PlayerCharactersTest {
   Engineer eng;
   Knight kng;
   Thief thf;
-  Weapon sword;
-  Staff staff;
+  Weapon axe, bow, knife, staff, sword;
 
   BlockingQueue<GameCharacter> queue;
 
@@ -33,8 +33,11 @@ class PlayerCharactersTest {
     eng = new Engineer("eng", 97, 48, queue);
     kng = new Knight("kng", 52, 47, queue);
     thf = new Thief("thf", 18, 94, queue);
-    sword = new Weapon("myWeapon", 20, 15, "SWORD");
+    sword = new Sword("myWeapon", 20, 15);
     staff = new Staff("oneStaff", 78, 29, 10);
+    bow = new Bow("aBow", 29, 47);
+    axe = new Axe("axe", 20, 94);
+    knife = new Knife("superKnife", 10, 47);
 
   }
 
@@ -64,16 +67,16 @@ class PlayerCharactersTest {
   }
 
   @Test
-  void equip() {
+  void equip() throws RestrictedWeaponException {
     assertNull(bmg.getEquippedWeapon());
     assertNull(wmg.getEquippedWeapon());
     assertNull(eng.getEquippedWeapon());
     assertNull(kng.getEquippedWeapon());
     assertNull(thf.getEquippedWeapon());
-    bmg.equip(sword);
+    bmg.equip(staff);
     wmg.equip(staff);
-    eng.equip(sword);
-    kng.equip(staff);
+    eng.equip(axe);
+    kng.equip(knife);
     thf.equip(sword);
     assertNotNull(bmg.getEquippedWeapon());
     assertNotNull(wmg.getEquippedWeapon());
@@ -83,20 +86,20 @@ class PlayerCharactersTest {
   }
 
   @Test
-  void getEquippedWeapon() {
-    bmg.equip(sword);
+  void getEquippedWeapon() throws RestrictedWeaponException {
+    bmg.equip(knife);
     wmg.equip(staff);
-    eng.equip(sword);
-    kng.equip(staff);
-    thf.equip(sword);
-    assertEquals(sword, bmg.getEquippedWeapon());
+    eng.equip(axe);
+    kng.equip(sword);
+    thf.equip(bow);
+    assertEquals(knife, bmg.getEquippedWeapon());
     assertEquals(staff, wmg.getEquippedWeapon());
-    assertEquals(sword, eng.getEquippedWeapon());
-    assertEquals(staff, kng.getEquippedWeapon());
-    assertEquals(sword, thf.getEquippedWeapon());
-    assertEquals(eng.getEquippedWeapon(), bmg.getEquippedWeapon());
-    assertEquals(kng.getEquippedWeapon(), wmg.getEquippedWeapon());
-    assertEquals(thf.getEquippedWeapon(), eng.getEquippedWeapon());
+    assertEquals(axe, eng.getEquippedWeapon());
+    assertEquals(sword, kng.getEquippedWeapon());
+    assertEquals(bow, thf.getEquippedWeapon());
+    assertNotEquals(eng.getEquippedWeapon(), bmg.getEquippedWeapon());
+    assertNotEquals(kng.getEquippedWeapon(), wmg.getEquippedWeapon());
+    assertNotEquals(thf.getEquippedWeapon(), eng.getEquippedWeapon());
     assertNotEquals(eng.getEquippedWeapon(), kng.getEquippedWeapon());
     assertNotEquals(wmg.getEquippedWeapon(), thf.getEquippedWeapon());
   }
@@ -183,6 +186,9 @@ class PlayerCharactersTest {
     assertEquals(new Engineer("eng", 97, 48, queue), eng);
     assertEquals(new Knight("kng", 52, 47, queue), kng);
     assertEquals(new Thief("thf", 18, 94, queue), thf);
+    assertNotEquals(kng, eng);
+    assertNotEquals(eng, bmg);
+    assertNotEquals(bmg, kng);
 
     BlackMage bmg1, bmg2;
     WhiteMage wmg1, wmg2;
