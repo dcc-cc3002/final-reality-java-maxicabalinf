@@ -4,6 +4,8 @@ import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.Require;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -26,6 +28,20 @@ public class Enemy extends AbstractCharacter {
     super(name, maxHp, defense, turnsQueue);
     Require.statValueAtLeast(1, weight, "Weight");
     this.weight = weight;
+  }
+
+  /**
+   * Creates a new {@code thread} to add an {@code enemy} to a {@code queue} after some
+   * {@code delay} depending on its {@code weight}.
+   *
+   */
+  @Override
+  public void waitTurn() {
+    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+    scheduledExecutor.schedule(
+      /* command = */ this::addToQueue,
+      /* delay = */ this.getWeight() / 10,
+      /* unit = */ TimeUnit.SECONDS);
   }
 
   /**

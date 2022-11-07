@@ -64,7 +64,9 @@ public abstract class AbstractWeapon implements Weapon {
    */
   @Override
   public int getMagicDamage() throws MissingStatException {
-    throw new MissingStatException(this.getClass().getSimpleName() + " does not have magic damage.");
+    throw new MissingStatException(
+      this.getClass().getSimpleName() + " does not have magic damage."
+    );
   }
 
   /**
