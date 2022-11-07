@@ -4,6 +4,8 @@ import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.Require;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -29,6 +31,20 @@ public class Enemy extends AbstractCharacter {
   }
 
   /**
+   * Creates a new {@code thread} to add an {@code enemy} to a {@code queue} after some
+   * {@code delay} depending on its {@code weight}.
+   *
+   */
+  @Override
+  public void waitTurn() {
+    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+    scheduledExecutor.schedule(
+      /* command = */ this::addToQueue,
+      /* delay = */ this.getWeight() / 10,
+      /* unit = */ TimeUnit.SECONDS);
+  }
+
+  /**
    * Returns the weight of this enemy.
    */
   public int getWeight() {
@@ -44,10 +60,17 @@ public class Enemy extends AbstractCharacter {
       return false;
     }
     return hashCode() == enemy.hashCode()
+        && currentHp == enemy.currentHp
         && name.equals(enemy.name)
         && weight == enemy.weight
         && maxHp == enemy.maxHp
         && defense == enemy.defense;
+  }
+
+  @Override
+  public String toString() {
+    return "Enemy{maxHp=%d, currentHp=%d, defense=%d, weight=%d, name='%s'}".formatted(
+      maxHp, currentHp, defense, weight, name);
   }
 
   @Override

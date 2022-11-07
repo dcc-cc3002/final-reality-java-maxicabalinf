@@ -15,5 +15,12 @@ Broadly speaking for the combat the player has a group of characters to control 
 enemies controlled by the computer.
 
 ---
+# Abstract
+## v2
+Implement weapon restrictions using Double Dispatch and exceptions when corresponds, along with tests.
 
-**The rest of the documentation is left for the users of this template to complete**
+## v1
+This commit implements a new Weapon subclass (Staff), differentiates between black and white mages implementing the
+abstract class AbstractMage and BlackMage and WhiteMage classes. The Main file tests for equals() method correctness
+for all new implemented classes. Also, it modifies the exception InvalidStatValueException, adding the bound field that 
+serves the purpose of late correction of the out-of-bounds values which fired the exception. 

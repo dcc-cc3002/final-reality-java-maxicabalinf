@@ -9,7 +9,9 @@
 package cl.uchile.dcc.finalreality.model.character.player;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.weapon.Weapon;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
  * @author ~Your name~
  */
 public class Engineer extends AbstractPlayerCharacter {
-
 
   /**
    * Creates a new engineer.
@@ -42,9 +43,23 @@ public class Engineer extends AbstractPlayerCharacter {
     super(name, maxHp, defense, turnsQueue);
   }
 
+  /**
+   * Equips a {@link Weapon} to a {@link Engineer}.
+   *
+   * @param weapon
+   *     the {@link Weapon} to be equipped
+   * @throws RestrictedWeaponException
+   *     error thrown if {@link Engineer} is unable to equip such {@code weapon}
+   */
+  @Override
+  public void equip(Weapon weapon) throws RestrictedWeaponException {
+    weapon.equipTo(this);
+  }
+
   @Override
   public String toString() {
-    return "Engineer{maxHp=%d, defense=%d, name='%s'}".formatted(maxHp, defense, name);
+    return "Engineer{maxHp=%d, currentHp=%d, defense=%d, name='%s'}".formatted(
+      maxHp, currentHp, defense, name);
   }
 
   @Override
@@ -61,6 +76,7 @@ public class Engineer extends AbstractPlayerCharacter {
       return false;
     }
     return hashCode() == that.hashCode()
+        && currentHp == that.currentHp
         && name.equals(that.name)
         && maxHp == that.maxHp
         && defense == that.defense;
