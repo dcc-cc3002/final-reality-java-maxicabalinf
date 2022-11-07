@@ -81,6 +81,9 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
   }
 
 
+  /**
+   * Sets the character's equipped weapon.
+   */
   public void setEquippedWeapon(Weapon weapon) {
     this.equippedWeapon = weapon;
   }
