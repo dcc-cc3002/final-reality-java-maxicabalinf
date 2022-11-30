@@ -2,6 +2,11 @@ package cl.uchile.dcc.finalreality.model.character;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.Require;
+import cl.uchile.dcc.finalreality.model.character.state.Burnt;
+import cl.uchile.dcc.finalreality.model.character.state.CharacterState;
+import cl.uchile.dcc.finalreality.model.character.state.Envenomed;
+import cl.uchile.dcc.finalreality.model.character.state.Normal;
+import cl.uchile.dcc.finalreality.model.character.state.Paralyzed;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +25,7 @@ public abstract class AbstractCharacter implements GameCharacter {
   protected final BlockingQueue<GameCharacter> turnsQueue;
   protected final String name;
   protected ScheduledExecutorService scheduledExecutor;
+  protected CharacterState actualState;
 
   /**
    * Creates a new character.
@@ -42,6 +48,7 @@ public abstract class AbstractCharacter implements GameCharacter {
     this.defense = defense;
     this.turnsQueue = turnsQueue;
     this.name = name;
+    this.actualState = new Normal(); //TODO implement StateFactory and singleton for StateFactory
   }
 
   /**
@@ -103,7 +110,58 @@ public abstract class AbstractCharacter implements GameCharacter {
   public int getDefense() {
     return defense;
   }
+  // endregion
 
+  // region : STATES
+  /**
+   * Change this character's state.
+   *
+   * @param state
+   *     the new character's state
+   */
+  public void changeState(CharacterState state) {
+    actualState = state;
+    actualState.setCharacter(this);
+  }
 
+  /**
+   * Tell if this character is {@link Burnt}.
+   *
+   * @return
+   *     wether it is {@link Burnt} or not
+   */
+  public boolean isBurnt() {
+    return actualState.isBurnt();
+  }
+
+  /**
+   * Tell if this character is {@link Envenomed}.
+   *
+   * @return
+   *     wether it is {@link Envenomed} or not
+   */
+  public boolean isEnvenomed() {
+    return actualState.isEnvenomed();
+  }
+
+  /**
+   * Tell if this character is {@link Normal}.
+   *
+   * @return
+   *     wether it is {@link Normal} or not
+   */
+  public boolean isNormal() {
+    return actualState.isNormal();
+  }
+
+  /**
+   * Tell if this character is {@link Paralyzed}.
+   *
+   * @return
+   *     wether it is {@link Paralyzed} or not
+   */
+  public boolean isParalyzed() {
+    return actualState.isParalyzed();
+  }
   // endregion
 }

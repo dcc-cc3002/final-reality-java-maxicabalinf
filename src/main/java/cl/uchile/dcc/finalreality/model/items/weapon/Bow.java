@@ -1,7 +1,7 @@
-package cl.uchile.dcc.finalreality.model.weapon;
+package cl.uchile.dcc.finalreality.model.items.weapon;
 
-import cl.uchile.dcc.finalreality.model.character.player.Engineer;
-import cl.uchile.dcc.finalreality.model.character.player.Thief;
+import cl.uchile.dcc.finalreality.model.character.player.normal.Engineer;
+import cl.uchile.dcc.finalreality.model.character.player.normal.Thief;
 import java.util.Objects;
 
 /**

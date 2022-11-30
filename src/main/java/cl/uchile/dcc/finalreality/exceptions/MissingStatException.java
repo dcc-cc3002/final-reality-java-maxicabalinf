@@ -1,6 +1,6 @@
 package cl.uchile.dcc.finalreality.exceptions;
 
-import cl.uchile.dcc.finalreality.model.weapon.Weapon;
+import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
 
 /**
  * An error thrown when a {@link Weapon} misses a stat field.

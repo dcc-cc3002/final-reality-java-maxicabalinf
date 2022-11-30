@@ -1,7 +1,7 @@
 package cl.uchile.dcc.finalreality.exceptions;
 
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
-import cl.uchile.dcc.finalreality.model.weapon.Weapon;
+import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
 
 /**
  * An error to indicate the inability of a {@link PlayerCharacter} to equip a {@link Weapon}.

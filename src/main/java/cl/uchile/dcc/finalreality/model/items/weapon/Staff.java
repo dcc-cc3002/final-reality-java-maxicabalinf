@@ -1,8 +1,8 @@
-package cl.uchile.dcc.finalreality.model.weapon;
+package cl.uchile.dcc.finalreality.model.items.weapon;
 
-import cl.uchile.dcc.finalreality.model.character.player.BlackMage;
-import cl.uchile.dcc.finalreality.model.character.player.Mage;
-import cl.uchile.dcc.finalreality.model.character.player.WhiteMage;
+import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
+import cl.uchile.dcc.finalreality.model.character.player.mage.Mage;
+import cl.uchile.dcc.finalreality.model.character.player.mage.WhiteMage;
 import java.util.Objects;
 
 /**

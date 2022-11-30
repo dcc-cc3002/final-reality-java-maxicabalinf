@@ -6,26 +6,31 @@
  * work. If not, see <http://creativecommons.org/licenses/by/4.0/>.
  */
 
-package cl.uchile.dcc.finalreality.model.character.player;
+package cl.uchile.dcc.finalreality.model.character.player.mage;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
+import cl.uchile.dcc.finalreality.model.character.Enemy;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
-import cl.uchile.dcc.finalreality.model.weapon.Weapon;
+import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
+import cl.uchile.dcc.finalreality.model.items.spell.Spell;
+import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * A Black Mage is a type of player character that can cast black magic.
+ * A {@link PlayerCharacter} that can equip {@code Staff}s and use <i>white magic</i>.
  *
  * @author <a href="https://www.github.com/r8vnhill">R8V</a>
- * @version 2.0
+ * @author ~Your name~
  */
-public class BlackMage extends AbstractMage {
+
+public class WhiteMage extends AbstractMage {
 
   /**
-   * Creates a new Black Mage.
+   * Creates a new character.
    *
    * @param name
    *     the character's name
@@ -36,19 +41,33 @@ public class BlackMage extends AbstractMage {
    * @param turnsQueue
    *     the queue with the characters waiting for their turn
    */
-  public BlackMage(final @NotNull String name, final int maxHp, final int defense,
+  public WhiteMage(final @NotNull String name, final int maxHp, final int defense,
       int maxMp, final @NotNull BlockingQueue<GameCharacter> turnsQueue)
       throws InvalidStatValueException {
     super(name, maxHp, defense, maxMp, turnsQueue);
   }
 
   /**
-   * Equips a {@link Weapon} to a {@link BlackMage}.
+   * Cast a {@link Spell} to affect an {@link Enemy}.
+   *
+   * @param spell
+   *     the {@link Spell} to be cast
+   * @param character
+   *     the {@link Enemy} to be affected
+   *
+   */
+  @Override
+  public void cast(Spell spell, GameCharacter character) throws RestrictedSpellException {
+    spell.affect(character, this);
+  }
+
+  /**
+   * Equips a {@link Weapon} to a {@link WhiteMage}.
    *
    * @param weapon
    *     the {@link Weapon} to be equipped
    * @throws RestrictedWeaponException
-   *     error thrown if {@link BlackMage} is unable to equip such {@code weapon}
+   *     error thrown if {@link WhiteMage} is unable to equip such {@code weapon}
    */
   @Override
   public void equip(Weapon weapon) throws RestrictedWeaponException {
@@ -61,27 +80,27 @@ public class BlackMage extends AbstractMage {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof final BlackMage that)) {
+    if (!(o instanceof final WhiteMage that)) {
       return false;
     }
     return hashCode() == that.hashCode()
         && currentHp == that.currentHp
         && currentMp == that.currentMp
+        && maxMp == that.maxMp
         && name.equals(that.name)
         && maxHp == that.maxHp
-        && defense == that.defense
-        && maxMp == that.maxMp;
+        && defense == that.defense;
   }
 
   @Override
   public String toString() {
-    return "BlackMage{maxHp=%d, currentHp=%d, maxMp=%d, currentMp=%d, defense=%d, name='%s'}"
+    return "WhiteMage{maxHp=%d, currentHp=%d, maxMp=%d, currentMp=%d, defense=%d, name='%s'}"
       .formatted(maxMp, currentHp, maxMp, currentMp, defense, name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(BlackMage.class, name, maxHp, defense, maxMp);
+    return Objects.hash(WhiteMage.class, name, maxHp, defense, maxMp);
   }
   // endregion
 }
