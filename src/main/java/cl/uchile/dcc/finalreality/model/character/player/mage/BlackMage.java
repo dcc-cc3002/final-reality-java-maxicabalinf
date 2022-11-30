@@ -6,11 +6,15 @@
  * work. If not, see <http://creativecommons.org/licenses/by/4.0/>.
  */
 
-package cl.uchile.dcc.finalreality.model.character.player;
+package cl.uchile.dcc.finalreality.model.character.player.mage;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
-import cl.uchile.dcc.finalreality.exceptions.Require;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
+import cl.uchile.dcc.finalreality.model.character.Enemy;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.items.spell.Spell;
+import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import org.jetbrains.annotations.NotNull;
@@ -19,13 +23,9 @@ import org.jetbrains.annotations.NotNull;
  * A Black Mage is a type of player character that can cast black magic.
  *
  * @author <a href="https://www.github.com/r8vnhill">R8V</a>
- * @author ~Your name~
  * @version 2.0
  */
-public class BlackMage extends AbstractPlayerCharacter {
-
-  private int currentMp;
-  private final int maxMp;
+public class BlackMage extends AbstractMage {
 
   /**
    * Creates a new Black Mage.
@@ -39,40 +39,38 @@ public class BlackMage extends AbstractPlayerCharacter {
    * @param turnsQueue
    *     the queue with the characters waiting for their turn
    */
-  protected BlackMage(final @NotNull String name, final int maxHp, final int defense,
+  public BlackMage(final @NotNull String name, final int maxHp, final int defense,
       int maxMp, final @NotNull BlockingQueue<GameCharacter> turnsQueue)
       throws InvalidStatValueException {
-    super(name, maxHp, defense, turnsQueue);
-    Require.statValueAtLeast(0, maxMp, "Max MP");
-    this.maxMp = maxMp;
-    this.currentMp = maxMp;
-  }
-
-  // region : ACCESSORS
-
-  /**
-   * Returns the character's current MP.
-   */
-  private int getCurrentMp() {
-    return currentMp;
+    super(name, maxHp, defense, maxMp, turnsQueue);
   }
 
   /**
-   * Sets the character's current MP.
+   * Cast a {@link Spell} to affect an {@link Enemy}.
+   *
+   * @param spell
+   *     the {@link Spell} to be cast
+   * @param character
+   *     the {@link Enemy} to be affected
+   *
    */
-  private void setCurrentMp(final int currentMp) throws InvalidStatValueException {
-    Require.statValueAtLeast(0, currentMp, "Current MP");
-    Require.statValueAtMost(maxMp, currentMp, "Current MP");
-    this.currentMp = currentMp;
+  @Override
+  public void cast(Spell spell, GameCharacter character) throws RestrictedSpellException {
+    spell.affect(character, this);
   }
 
   /**
-   * Returns the character's max MP.
+   * Equips a {@link Weapon} to a {@link BlackMage}.
+   *
+   * @param weapon
+   *     the {@link Weapon} to be equipped
+   * @throws RestrictedWeaponException
+   *     error thrown if {@link BlackMage} is unable to equip such {@code weapon}
    */
-  private int getMaxMp() {
-    return maxMp;
+  @Override
+  public void equip(Weapon weapon) throws RestrictedWeaponException {
+    weapon.equipTo(this);
   }
-  // endregion
 
   // region : UTILITY METHODS
   @Override
@@ -84,6 +82,8 @@ public class BlackMage extends AbstractPlayerCharacter {
       return false;
     }
     return hashCode() == that.hashCode()
+        && currentHp == that.currentHp
+        && currentMp == that.currentMp
         && name.equals(that.name)
         && maxHp == that.maxHp
         && defense == that.defense
@@ -92,8 +92,8 @@ public class BlackMage extends AbstractPlayerCharacter {
 
   @Override
   public String toString() {
-    return "BlackMage{currentMp=%d, maxMp=%d, maxHp=%d, defense=%d, name='%s'}"
-        .formatted(currentMp, maxMp, maxHp, defense, name);
+    return "BlackMage{maxHp=%d, currentHp=%d, maxMp=%d, currentMp=%d, defense=%d, name='%s'}"
+      .formatted(maxMp, currentHp, maxMp, currentMp, defense, name);
   }
 
   @Override
