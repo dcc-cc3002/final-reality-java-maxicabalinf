@@ -125,6 +125,18 @@ public abstract class AbstractCharacter implements GameCharacter {
   }
 
   /**
+   * Attack another {@link GameCharacter}.
+   */
+  public abstract void attack(GameCharacter character) throws InvalidStatValueException;
+
+  /**
+   * Recieve attack from another {@link GameCharacter}. Reduces the characters {@code Hp}.
+   */
+  public void beAttacked(int damage) throws InvalidStatValueException {
+    setCurrentHp(Math.max(getCurrentHp() - damage, 0));
+  }
+
+  /**
    * Tell if this character is {@link Burnt}.
    *
    * @return

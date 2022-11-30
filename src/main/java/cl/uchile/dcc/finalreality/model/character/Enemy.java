@@ -53,6 +53,13 @@ public class Enemy extends AbstractCharacter {
     return weight;
   }
 
+  /**
+   * Attack another {@link GameCharacter}.
+   */
+  public void attack(GameCharacter character) throws InvalidStatValueException {
+    character.beAttacked(10);
+  }
+
   @Override
   public boolean equals(final Object o) {
     if (this == o) {

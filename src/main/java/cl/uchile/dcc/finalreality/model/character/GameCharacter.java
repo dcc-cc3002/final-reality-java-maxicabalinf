@@ -52,6 +52,16 @@ public interface GameCharacter {
   void changeState(CharacterState state);
 
   /**
+   * Attack another {@link GameCharacter}.
+   */
+  void attack(GameCharacter character) throws InvalidStatValueException;
+
+  /**
+   * Recieve attack from another {@link GameCharacter}. Reduces the characters {@code Hp}.
+   */
+  void beAttacked(int damage) throws InvalidStatValueException;
+
+  /**
    * Tell if this character is {@link Burnt}.
    *
    * @return

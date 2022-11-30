@@ -1,11 +1,11 @@
 package cl.uchile.dcc.finalreality.model.character.state;
 
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
-import cl.uchile.dcc.finalreality.model.items.spell.Venom;
 import cl.uchile.dcc.finalreality.model.items.spell.Spell;
+import cl.uchile.dcc.finalreality.model.items.spell.Venom;
 
 /**
- * A {@link GameCharacter} is {@code burnt} when it was applied the {@link Venom} {@link Spell}
+ * A {@link GameCharacter} is {@code burnt} when it was applied the {@link Venom} {@link Spell}.
  *
  * @author <a href="https://www.github.com/maxicabalinf">Maximiliano Cabalin F.</a>
  */
