@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
-import cl.uchile.dcc.finalreality.model.character.player.Thief;
-import cl.uchile.dcc.finalreality.model.weapon.Sword;
+import cl.uchile.dcc.finalreality.model.character.player.normal.Thief;
+import cl.uchile.dcc.finalreality.model.items.weapon.Sword;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.junit.jupiter.api.BeforeEach;

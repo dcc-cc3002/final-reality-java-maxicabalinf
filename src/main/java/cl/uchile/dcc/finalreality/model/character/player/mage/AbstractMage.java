@@ -1,8 +1,13 @@
-package cl.uchile.dcc.finalreality.model.character.player;
+package cl.uchile.dcc.finalreality.model.character.player.mage;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.Require;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
+import cl.uchile.dcc.finalreality.model.character.Enemy;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.character.player.AbstractPlayerCharacter;
+import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
+import cl.uchile.dcc.finalreality.model.items.spell.Spell;
 import java.util.concurrent.BlockingQueue;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +33,19 @@ public abstract class AbstractMage extends AbstractPlayerCharacter implements Ma
     this.maxMp = maxMp;
     this.currentMp = maxMp;
   }
+  // region : BEHAVIORS
+
+  /**
+   * Cast a {@link Spell} to affect an {@link Enemy}.
+   *
+   * @param spell
+   *     the {@link Spell} to be cast
+   * @param character
+   *     the {@link Enemy} to be affected
+   *
+   */
+  public abstract void cast(Spell spell, GameCharacter character) throws RestrictedSpellException;
+  // endregion
 
   // region : ACCESSORS
 

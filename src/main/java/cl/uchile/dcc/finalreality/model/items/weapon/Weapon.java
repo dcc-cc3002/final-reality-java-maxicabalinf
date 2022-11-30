@@ -1,14 +1,14 @@
-package cl.uchile.dcc.finalreality.model.weapon;
+package cl.uchile.dcc.finalreality.model.items.weapon;
 
 import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
-import cl.uchile.dcc.finalreality.model.character.player.BlackMage;
-import cl.uchile.dcc.finalreality.model.character.player.Engineer;
-import cl.uchile.dcc.finalreality.model.character.player.Knight;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
-import cl.uchile.dcc.finalreality.model.character.player.Thief;
-import cl.uchile.dcc.finalreality.model.character.player.WhiteMage;
+import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
+import cl.uchile.dcc.finalreality.model.character.player.mage.WhiteMage;
+import cl.uchile.dcc.finalreality.model.character.player.normal.Engineer;
+import cl.uchile.dcc.finalreality.model.character.player.normal.Knight;
+import cl.uchile.dcc.finalreality.model.character.player.normal.Thief;
 
 /**
  * {@code Weapon}s are objects used by {@link PlayerCharacter}s to attack {@link GameCharacter}s.
