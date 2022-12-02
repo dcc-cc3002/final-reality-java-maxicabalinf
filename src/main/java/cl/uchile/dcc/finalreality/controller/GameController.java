@@ -1,8 +1,7 @@
-package cl.uchile.dcc.finalreality.model;
+package cl.uchile.dcc.finalreality.controller;
 
-import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
-import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
-import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
+import cl.uchile.dcc.finalreality.controller.state.GameState;
+import cl.uchile.dcc.finalreality.exceptions.*;
 import cl.uchile.dcc.finalreality.model.character.Enemy;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
@@ -32,6 +31,8 @@ public class GameController {
   private final List<PlayerCharacter> playerCharacters;
   private final List<Enemy> enemyCharacters;
   private final GameView view;
+  private GameState state;
+  private GameCharacter actualCharacter;
 
   public GameController(
       BlockingQueue<GameCharacter> turnsQueue,
@@ -44,8 +45,89 @@ public class GameController {
     this.view = view;
   }
 
+  public void setState(GameState state) {
+    this.state = state;
+    state.setGame(this);
+  }
+
+  // region : STATE TRANSITIONS
+  public void pickUpCharacter() throws InvalidTransitionException, InterruptedException {
+    actualCharacter = turnsQueue.take();
+    state.pickUpCharacter();
+  }
+
+  public void checkCharacter() throws InvalidTransitionException {
+    actualCharacter.checkCharacter(this);
+  }
+  public void isAlly() throws InvalidTransitionException {
+    state.isAlly();
+  }
+
+  public void isEnemy() throws InvalidTransitionException {
+    state.isEnemy();
+  }
+
+  public void changeWeapon() throws InvalidTransitionException {
+    state.changeWeapon();
+  }
+
+  public void changeSpell() throws InvalidTransitionException {
+    state.changeSpell();
+  }
+
+  public void changeTarget() throws InvalidTransitionException {
+    state.changeTarget();
+  }
+
+  public void execute() throws InvalidTransitionException {
+    state.execute();
+  }
+
+  public void beginTimer() throws InvalidTransitionException {
+    state.beginTimer();
+  }
+
+  public void emptyQueue() throws InvalidTransitionException {
+    state.emptyQueue();
+  }
+
+  public void allEnemiesDead() throws InvalidTransitionException {
+    state.allEnemiesDead();
+  }
+
+  public void allAlliesDead() throws InvalidTransitionException {
+    state.allAlliesDead();
+  }
+  // endregion
+
+  // region : STATE VERIFIERS
+  public boolean inWaitingQueue() {
+    return state.inWaitingQueue();
+  }
+
+  public boolean inUndeterminedCharacter() {
+    return state.inUndeterminedCharacter();
+  }
+
+  public boolean inPlayerChoice() {
+    return state.inPlayerChoice();
+  }
+
+  public boolean inEnemyChoice() {
+    return state.inEnemyChoice();
+  }
+
+  public boolean inFinishedTurn() {
+    return state.inFinishedTurn();
+  }
+
+  public boolean inEndOfGame() {
+    return state.inEndOfGame();
+  }
+  // endregion
+
   // region : CHARACTERS
-  private PlayerCharacter createEngineer(String name, int hp, int defense)
+  public PlayerCharacter createEngineer(String name, int hp, int defense)
       throws InvalidStatValueException, RestrictedWeaponException {
     Weapon weapon = new Sword("sword", 20, 20);
     PlayerCharacter engineer = new Engineer(name, hp, defense, turnsQueue);
@@ -53,7 +135,7 @@ public class GameController {
     return engineer;
   }
 
-  private PlayerCharacter createKnight(String name, int hp, int defense)
+  public PlayerCharacter createKnight(String name, int hp, int defense)
       throws InvalidStatValueException, RestrictedWeaponException {
     Weapon weapon = new Sword("sword", 20, 20);
     PlayerCharacter knight = new Knight(name, hp, defense, turnsQueue);
@@ -61,7 +143,7 @@ public class GameController {
     return knight;
   }
   
-  private PlayerCharacter createThief(String name, int hp, int defense)
+  public PlayerCharacter createThief(String name, int hp, int defense)
       throws InvalidStatValueException, RestrictedWeaponException {
     Weapon weapon = new Sword("sword", 20, 20);
     PlayerCharacter thief = new Thief(name, hp, defense, turnsQueue);
@@ -69,7 +151,7 @@ public class GameController {
     return thief;
   }
 
-  private Mage createBlackMage(String name, int hp, int mp, int defense)
+  public Mage createBlackMage(String name, int hp, int mp, int defense)
       throws InvalidStatValueException, RestrictedWeaponException {
     Weapon weapon = new Staff("staff", 20, 20, 20);
     Mage blackMage = new BlackMage(name, hp, defense, mp, turnsQueue);
@@ -77,7 +159,7 @@ public class GameController {
     return blackMage;
   }
 
-  private Mage createWhiteMage(String name, int hp, int mp, int defense)
+  public Mage createWhiteMage(String name, int hp, int mp, int defense)
       throws InvalidStatValueException, RestrictedWeaponException {
     Weapon weapon = new Staff("staff", 20, 20, 20);
     Mage whiteMage = new WhiteMage(name, hp, defense, mp, turnsQueue);
@@ -85,70 +167,75 @@ public class GameController {
     return whiteMage;
   }
 
-  private Enemy createEnemy(String name, int weight, int hp, int defense)
+  public Enemy createEnemy(String name, int weight, int hp, int defense)
       throws InvalidStatValueException {
     return new Enemy(name, weight, hp, defense, turnsQueue);
   }
   // endregion
 
   // region : WEAPONS
-  private Weapon createAxe(String name, int damage, int weight) {
+  public Weapon createAxe(String name, int damage, int weight) {
     return new Axe(name, damage, weight);
   }
 
-  private Weapon createBow(String name, int damage, int weight) {
+  public Weapon createBow(String name, int damage, int weight) {
     return new Bow(name, damage, weight);
   }
 
-  private Weapon createKnife(String name, int damage, int weight) {
+  public Weapon createKnife(String name, int damage, int weight) {
     return new Knife(name, damage, weight);
   }
 
-  private Weapon createStaff(String name, int damage, int magicDamage, int weight) {
+  public Weapon createStaff(String name, int damage, int magicDamage, int weight) {
     return new Staff(name, damage, magicDamage, weight);
   }
 
-  private Weapon createSword(String name, int damage, int weight) {
+  public Weapon createSword(String name, int damage, int weight) {
     return new Sword(name, damage, weight);
   }
   // endregion
 
-  // region : ACTIONS
-  private void attack(GameCharacter attacker, GameCharacter target)
+  // region : GAME ACTIONS
+  public void strike(GameCharacter attacker, GameCharacter target)
       throws InvalidStatValueException {
-    attacker.attack(target);
+    attacker.strike(target);
   }
 
-  private void castCure(Mage attacker, GameCharacter target) throws RestrictedSpellException {
-    attacker.cast(new Cure(), target);
+  public void cast(Mage mage, GameCharacter target)
+    throws RestrictedSpellException, InvalidStatValueException, MissingStatException {
+    mage.cast(target);
   }
 
-  private void castFire(Mage attacker, GameCharacter target) throws RestrictedSpellException {
-    attacker.cast(new Fire(), target);
-  }
-
-  private void castParalyze(Mage attacker, GameCharacter target) throws RestrictedSpellException {
-    attacker.cast(new Paralyze(), target);
-  }
-
-  private void castThunder(Mage attacker, GameCharacter target) throws RestrictedSpellException {
-    attacker.cast(new Thunder(), target);
-  }
-
-  private void castVenom(Mage attacker, GameCharacter target) throws RestrictedSpellException {
-    attacker.cast(new Venom(), target);
-  }
+//  public void castCure(Mage attacker, GameCharacter target) throws RestrictedSpellException, InvalidStatValueException {
+//    attacker.cast(new Cure(), target);
+//  }
+//
+//  public void castFire(Mage attacker, GameCharacter target) throws RestrictedSpellException, InvalidStatValueException {
+//    attacker.cast(new Fire(), target);
+//  }
+//
+//  public void castParalyze(Mage attacker, GameCharacter target) throws RestrictedSpellException, InvalidStatValueException {
+//    attacker.cast(new Paralyze(), target);
+//  }
+//
+//  public void castThunder(Mage attacker, GameCharacter target) throws RestrictedSpellException, InvalidStatValueException {
+//    attacker.cast(new Thunder(), target);
+//  }
+//
+//  public void castVenom(Mage attacker, GameCharacter target) throws RestrictedSpellException, InvalidStatValueException {
+//    attacker.cast(new Venom(), target);
+//  }
   // endregion
 
-  private void waitTurn(GameCharacter character) {
+  public void waitTurn(GameCharacter character) {
     character.waitTurn();
   }
 
-  private void onPlayerWin() {
+  public void onPlayerWin() {
     System.out.println("You win!");
   }
 
-  private void onEnemyWin() {
+  public void onEnemyWin() {
     System.out.println("You lose :(");
   }
 

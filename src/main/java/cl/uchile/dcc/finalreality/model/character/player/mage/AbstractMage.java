@@ -1,6 +1,7 @@
 package cl.uchile.dcc.finalreality.model.character.player.mage;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
 import cl.uchile.dcc.finalreality.exceptions.Require;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.model.character.Enemy;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class AbstractMage extends AbstractPlayerCharacter implements Mage {
   protected int currentMp;
   protected final int maxMp;
+  protected Spell equippedSpell = null;
 
   protected AbstractMage(final @NotNull String name, final int maxHp, final int defense,
       int maxMp, final @NotNull BlockingQueue<GameCharacter> turnsQueue)
@@ -36,6 +38,21 @@ public abstract class AbstractMage extends AbstractPlayerCharacter implements Ma
   // region : BEHAVIORS
 
   /**
+   * Sets the mage's equipped {@link Spell}.
+   */
+  public void setEquippedSpell(Spell spell) {
+    this.equippedSpell = spell;
+  }
+
+  public abstract void equip(Spell spell) throws RestrictedSpellException;
+
+  /**
+   * Cast the {@code equippedSpell} towards another {@link GameCharacter}.
+   */
+  public abstract void cast(GameCharacter character)
+    throws RestrictedSpellException, InvalidStatValueException, MissingStatException;
+
+  /**
    * Cast a {@link Spell} to affect an {@link Enemy}.
    *
    * @param spell
@@ -44,7 +61,7 @@ public abstract class AbstractMage extends AbstractPlayerCharacter implements Ma
    *     the {@link Enemy} to be affected
    *
    */
-  public abstract void cast(Spell spell, GameCharacter character) throws RestrictedSpellException;
+  public abstract void cast(Spell spell, GameCharacter character) throws RestrictedSpellException, InvalidStatValueException, MissingStatException;
   // endregion
 
   // region : ACCESSORS

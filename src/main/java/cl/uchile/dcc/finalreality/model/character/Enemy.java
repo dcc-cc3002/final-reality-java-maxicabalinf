@@ -1,6 +1,8 @@
 package cl.uchile.dcc.finalreality.model.character;
 
+import cl.uchile.dcc.finalreality.controller.GameController;
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
 import cl.uchile.dcc.finalreality.exceptions.Require;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
@@ -56,8 +58,13 @@ public class Enemy extends AbstractCharacter {
   /**
    * Attack another {@link GameCharacter}.
    */
-  public void attack(GameCharacter character) throws InvalidStatValueException {
+  public void strike(GameCharacter character) throws InvalidStatValueException {
     character.beAttacked(10);
+  }
+
+  @Override
+  public void checkCharacter(GameController game) throws InvalidTransitionException {
+    game.isEnemy();
   }
 
   @Override

@@ -91,7 +91,7 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
   /**
    * Attack another {@link GameCharacter}.
    */
-  public void attack(GameCharacter character) throws InvalidStatValueException {
+  public void strike(GameCharacter character) throws InvalidStatValueException {
     character.beAttacked(this.getEquippedWeapon().getDamage());
   }
 }

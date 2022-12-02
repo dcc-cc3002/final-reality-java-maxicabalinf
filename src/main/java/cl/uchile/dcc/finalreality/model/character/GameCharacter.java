@@ -1,6 +1,8 @@
 package cl.uchile.dcc.finalreality.model.character;
 
+import cl.uchile.dcc.finalreality.controller.GameController;
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
 import cl.uchile.dcc.finalreality.model.character.state.Burnt;
 import cl.uchile.dcc.finalreality.model.character.state.CharacterState;
 import cl.uchile.dcc.finalreality.model.character.state.Envenomed;
@@ -54,7 +56,7 @@ public interface GameCharacter {
   /**
    * Attack another {@link GameCharacter}.
    */
-  void attack(GameCharacter character) throws InvalidStatValueException;
+  void strike(GameCharacter character) throws InvalidStatValueException;
 
   /**
    * Recieve attack from another {@link GameCharacter}. Reduces the characters {@code Hp}.
@@ -92,4 +94,6 @@ public interface GameCharacter {
    *     wether it is {@link Paralyzed} or not
    */
   boolean isParalyzed();
+
+  void checkCharacter(GameController game) throws InvalidTransitionException;
 }

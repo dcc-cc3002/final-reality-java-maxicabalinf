@@ -1,6 +1,8 @@
 package cl.uchile.dcc.finalreality.model.character;
 
+import cl.uchile.dcc.finalreality.controller.GameController;
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
 import cl.uchile.dcc.finalreality.exceptions.Require;
 import cl.uchile.dcc.finalreality.model.character.state.Burnt;
 import cl.uchile.dcc.finalreality.model.character.state.CharacterState;
@@ -127,7 +129,7 @@ public abstract class AbstractCharacter implements GameCharacter {
   /**
    * Attack another {@link GameCharacter}.
    */
-  public abstract void attack(GameCharacter character) throws InvalidStatValueException;
+  public abstract void strike(GameCharacter character) throws InvalidStatValueException;
 
   /**
    * Recieve attack from another {@link GameCharacter}. Reduces the characters {@code Hp}.
@@ -176,4 +178,8 @@ public abstract class AbstractCharacter implements GameCharacter {
     return actualState.isParalyzed();
   }
   // endregion
+
+  public void checkCharacter(GameController game) throws InvalidTransitionException {
+    game.isAlly();
+  }
 }

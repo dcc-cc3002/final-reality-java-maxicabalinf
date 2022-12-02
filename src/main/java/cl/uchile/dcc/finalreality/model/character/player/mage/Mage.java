@@ -1,6 +1,7 @@
 package cl.uchile.dcc.finalreality.model.character.player.mage;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
@@ -14,7 +15,12 @@ import cl.uchile.dcc.finalreality.model.items.weapon.Staff;
  */
 public interface Mage extends PlayerCharacter {
 
-  void cast(Spell spell, GameCharacter character) throws RestrictedSpellException;
+  // TODO review cast() method
+  void cast(Spell spell, GameCharacter character) throws RestrictedSpellException, InvalidStatValueException, MissingStatException;
+
+  void cast(GameCharacter character) throws RestrictedSpellException, InvalidStatValueException, MissingStatException;
+
+  void equip(Spell spell) throws RestrictedSpellException;
 
   int getCurrentMp();
 

@@ -52,6 +52,13 @@ public abstract class AbstractWeapon implements Weapon {
   }
 
   /**
+   * Tell if this Weapon is a Staff
+   */
+  public boolean isStaff() {
+    return false;
+  }
+
+  /**
    * Returns the weapon's damage.
    */
   @Override

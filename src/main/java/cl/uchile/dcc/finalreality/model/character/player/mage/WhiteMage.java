@@ -62,6 +62,26 @@ public class WhiteMage extends AbstractMage {
   }
 
   /**
+   * Cast the {@code equippedSpell} towards another {@link GameCharacter}.
+   */
+
+  /**
+   * Cast a {@link Spell} to affect  {@link GameCharacter}.
+   *
+   * @param character
+   *     the {@link GameCharacter} to recieve the {@link Spell}
+   * @throws RestrictedSpellException
+   *     if
+   * @throws InvalidStatValueException
+   */
+  @Override
+  public void cast(GameCharacter character)
+      throws RestrictedSpellException, InvalidStatValueException {
+    equippedSpell.affect(character, this);
+    // TODO implement spell payment here
+  }
+
+  /**
    * Equips a {@link Weapon} to a {@link WhiteMage}.
    *
    * @param weapon
@@ -72,6 +92,11 @@ public class WhiteMage extends AbstractMage {
   @Override
   public void equip(Weapon weapon) throws RestrictedWeaponException {
     weapon.equipTo(this);
+  }
+
+  @Override
+  public void equip(Spell spell) throws RestrictedSpellException {
+    spell.equipTo(this);
   }
 
   // region : UTILITY METHODS

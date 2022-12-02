@@ -9,6 +9,7 @@
 package cl.uchile.dcc.finalreality.model.character.player.mage;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.Enemy;
@@ -46,7 +47,7 @@ public class BlackMage extends AbstractMage {
   }
 
   /**
-   * Cast a {@link Spell} to affect an {@link Enemy}.
+   * Cast a {@link Spell} to affect a {@link GameCharacter}.
    *
    * @param spell
    *     the {@link Spell} to be cast
@@ -55,8 +56,22 @@ public class BlackMage extends AbstractMage {
    *
    */
   @Override
-  public void cast(Spell spell, GameCharacter character) throws RestrictedSpellException {
+  public void cast(Spell spell, GameCharacter character) throws RestrictedSpellException, InvalidStatValueException, MissingStatException {
     spell.affect(character, this);
+  }
+
+  /**
+   * Cast the {@code equippedSpell} towards another {@link GameCharacter}.
+   */
+  @Override
+  public void cast(GameCharacter character)
+    throws RestrictedSpellException, InvalidStatValueException, MissingStatException {
+    if (getEquippedWeapon().isStaff()) {
+      equippedSpell.affect(character, this);
+    }
+    else {
+      throw new RestrictedSpellException("Mages need to have a Staff equipped to cast Spells");
+    }
   }
 
   /**
@@ -70,6 +85,11 @@ public class BlackMage extends AbstractMage {
   @Override
   public void equip(Weapon weapon) throws RestrictedWeaponException {
     weapon.equipTo(this);
+  }
+
+  @Override
+  public void equip(Spell spell) throws RestrictedSpellException {
+    spell.equipTo(this);
   }
 
   // region : UTILITY METHODS

@@ -2,7 +2,7 @@ package cl.uchile.dcc.finalreality;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
-import cl.uchile.dcc.finalreality.model.GameController;
+import cl.uchile.dcc.finalreality.controller.GameController;
 import cl.uchile.dcc.finalreality.model.character.Enemy;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;

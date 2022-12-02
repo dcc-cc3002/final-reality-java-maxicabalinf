@@ -94,4 +94,6 @@ public interface Weapon {
    *     if {@link WhiteMage} is unable to equip such weapon
    */
   void equipTo(WhiteMage whiteMage) throws RestrictedWeaponException;
+
+  boolean isStaff();
 }

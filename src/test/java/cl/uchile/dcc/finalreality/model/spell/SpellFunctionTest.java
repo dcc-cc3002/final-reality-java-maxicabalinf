@@ -64,7 +64,7 @@ class SpellFunctionTest {
   }
 
   @Test
-  void affect() throws RestrictedSpellException, MissingStatException {
+  void affect() throws RestrictedSpellException, MissingStatException, InvalidStatValueException {
     // Store Hp and Mp values before modifying.
     updateStats();
 
