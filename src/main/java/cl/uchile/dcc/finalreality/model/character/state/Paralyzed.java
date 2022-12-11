@@ -1,13 +1,20 @@
 package cl.uchile.dcc.finalreality.model.character.state;
 
-//TODO add javadoc
-
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import cl.uchile.dcc.finalreality.model.items.spell.Paralyze;
+import cl.uchile.dcc.finalreality.model.items.spell.Spell;
 
+/**
+ * A {@link GameCharacter} is {@link Paralyzed} when it was applied the
+ * {@link Paralyze} {@link Spell}.
+ *
+ * @author <a href="https://www.github.com/maxicabalinf">Maximiliano Cabalin F.</a>
+ */
 public class Paralyzed extends AbstractCharacterState {
 
   /**
-   * Tell if the associated character is {@link Paralyzed}.
+   * A {@link GameCharacter} is {@link Envenomed} when it was applied the
+   * {@link Paralyze} {@link Spell}.
    *
    * @return
    *     true as this class is instantiated by some {@link GameCharacter}

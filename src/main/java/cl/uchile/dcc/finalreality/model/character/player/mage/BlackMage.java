@@ -12,9 +12,9 @@ import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
-import cl.uchile.dcc.finalreality.model.character.Enemy;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.items.spell.Spell;
+import cl.uchile.dcc.finalreality.model.items.weapon.Staff;
 import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
@@ -47,30 +47,23 @@ public class BlackMage extends AbstractMage {
   }
 
   /**
-   * Cast a {@link Spell} to affect a {@link GameCharacter}.
-   *
-   * @param spell
-   *     the {@link Spell} to be cast
-   * @param character
-   *     the {@link Enemy} to be affected
-   *
-   */
-  @Override
-  public void cast(Spell spell, GameCharacter character) throws RestrictedSpellException, InvalidStatValueException, MissingStatException {
-    spell.affect(character, this);
-  }
-
-  /**
    * Cast the {@code equippedSpell} towards another {@link GameCharacter}.
+   *
+   * @param target
+   *     the {@link GameCharacter} affected by the {@link Spell}
+   * @throws InvalidStatValueException
+   *     if there's an out-of-bounds value when affecting the target
+   * @throws MissingStatException
+   *     if a {@link Staff} is not equipped by this character,
+   *     because only staves have {@code magicDamage}
    */
   @Override
-  public void cast(GameCharacter character)
-    throws RestrictedSpellException, InvalidStatValueException, MissingStatException {
-    if (getEquippedWeapon().isStaff()) {
-      equippedSpell.affect(character, this);
-    }
-    else {
-      throw new RestrictedSpellException("Mages need to have a Staff equipped to cast Spells");
+  public void cast(GameCharacter target)
+      throws RestrictedSpellException, InvalidStatValueException, MissingStatException {
+    // The Mage must have enough Mp to cast the Spell.
+    if (getCurrentMp() - equippedSpell.getCost() >= 0) {
+      equippedSpell.affect(target, this);
+      setCurrentMp(getCurrentMp() - equippedSpell.getCost());
     }
   }
 

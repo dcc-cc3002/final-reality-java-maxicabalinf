@@ -4,7 +4,6 @@ import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 
 /**
  * A class that holds all the information of a {@link CharacterState} character in the game.
- *
  * {@link CharacterState}s have an associated {@link GameCharacter} whose abilities get
  * restricted depending on the state type.
  *
@@ -33,8 +32,6 @@ public abstract class AbstractCharacterState implements CharacterState {
   protected void changeState(CharacterState state) {
     character.changeState(state);
   }
-
-  //protected abstract void doEffect();
 
   /**
    * Tell if the associated {@link GameCharacter} is {@link Burnt}.

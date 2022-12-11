@@ -5,7 +5,7 @@ import cl.uchile.dcc.finalreality.model.items.spell.Fire;
 import cl.uchile.dcc.finalreality.model.items.spell.Spell;
 
 /**
- * A {@link GameCharacter} is {@code burnt} when it was applied the {@link Fire} {@link Spell}.
+ * A {@link GameCharacter} is {@link Burnt} when it was applied the {@link Fire} {@link Spell}.
  *
  * @author <a href="https://www.github.com/maxicabalinf">Maximiliano Cabalin F.</a>
  */

@@ -11,7 +11,7 @@ import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
 public class RestrictedWeaponException extends Exception {
 
   /**
-   * Creates a new {@code RestrictedWeaponException} with a {@code description} of the
+   * Create a new {@code RestrictedWeaponException} with a {@code description} of the
    * error.
    *
    * @param description

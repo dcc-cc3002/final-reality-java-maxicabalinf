@@ -11,8 +11,10 @@ import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 public interface CharacterState {
 
   /**
-   * Associates a {@link GameCharacter} to this {@link CharacterState}
+   * Associate a {@link GameCharacter} to this {@link CharacterState}.
+   *
    * @param character
+   *     the {@link GameCharacter} to be associated
    */
   void setCharacter(GameCharacter character);
 

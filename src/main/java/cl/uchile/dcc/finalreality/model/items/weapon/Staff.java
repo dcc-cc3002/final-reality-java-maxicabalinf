@@ -33,7 +33,7 @@ public final class Staff extends AbstractWeapon {
   // region: UTILITY METHODS
 
   /**
-   * Tell if this Weapon is a Staff
+   * Tell if this Weapon is a Staff.
    */
   @Override
   public boolean isStaff() {

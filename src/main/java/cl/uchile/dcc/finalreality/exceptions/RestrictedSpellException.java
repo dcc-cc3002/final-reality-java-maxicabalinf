@@ -11,7 +11,7 @@ import cl.uchile.dcc.finalreality.model.items.spell.Spell;
 public class RestrictedSpellException extends Exception {
 
   /**
-   * Creates a new {@code RestrictedSpellException} with a {@code description} of the
+   * Create a new {@code RestrictedSpellException} with a {@code description} of the
    * error.
    *
    * @param description

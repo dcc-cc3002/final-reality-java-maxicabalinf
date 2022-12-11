@@ -7,27 +7,33 @@ import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
 import cl.uchile.dcc.finalreality.model.character.player.mage.WhiteMage;
 
+/**
+ * A {@link Spell} that adds to the target's {@code Hp} 30% of its {@code maxHp}.
+ * Costs 15 {@code Mp}.
+ *
+ * @author <a href="https://www.github.com/maxicabalinf">Maximiliano Cabalín F.</a>
+ */
 public class Cure extends AbstractSpell {
 
+  /**
+   * Set this {@link Spell} cost.
+   */
   public Cure() {
     cost = 15;
   }
 
   /**
-   * Applies the current {@link Spell} to a {@link GameCharacter}. Discounts 15 Mp to the
-   * {@link BlackMage} who cast this {@link Spell}.
+   * Apply this {@link Spell} to a {@link GameCharacter}.
    *
    * @param character
    *     the {@link GameCharacter} to be affected
-   * @param blackMage
+   * @param whiteMage
    *     the {@link BlackMage} who casts the current {@link Spell}
-   * @throws RestrictedSpellException
-   *     when the {@link BlackMage} cast an unavailable {@link Spell} for its class
    */
   @Override
-  public void affect(GameCharacter character, BlackMage blackMage)
-    throws InvalidStatValueException, MissingStatException {
-    character.beAttacked(blackMage.getEquippedWeapon().getMagicDamage());
+  public void affect(GameCharacter character, WhiteMage whiteMage)
+      throws InvalidStatValueException, MissingStatException {
+    character.beAttacked(whiteMage.getEquippedWeapon().getMagicDamage());
   }
 
   /**

@@ -12,13 +12,13 @@ package cl.uchile.dcc.finalreality.exceptions;
  * This error is used to represent an invalid stat value.
  *
  * @author <a href="https://github.com/r8vnhill">R8V</a>
- * @author ~Your name~
+ * @author <a href="https://www.github.com/maxicabalinf">Maximiliano Cabalin F.</a>
  */
 public class InvalidStatValueException extends Exception {
   public int bound;
 
   /**
-   * Creates a new {@code InvalidStatValueException} with a {@code description} of the
+   * Create a new {@code InvalidStatValueException} with a {@code description} of the
    * error.
    *
    * @param description

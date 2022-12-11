@@ -8,8 +8,6 @@
 
 package cl.uchile.dcc.finalreality.exceptions;
 
-import cl.uchile.dcc.finalreality.model.character.GameCharacter;
-
 /**
  * Class containing a series of methods to check if a condition is met.
  * If the condition is not met, an exception is thrown.
@@ -30,7 +28,7 @@ public final class Require {
   }
 
   /**
-   * Checks if a given <i>Stat</i> value is <b>at least</b> a given value.
+   * Check if a given <i>Stat</i> value is <b>at least</b> a given value.
    *
    * @param least
    *     The smallest value (inclusive) that the <i>Stat</i> can have.
@@ -52,7 +50,8 @@ public final class Require {
   }
 
   /**
-   * Checks if a given <i>Stat</i> value is <b>at most</b> a given value.
+   * Check
+   * if a given <i>Stat</i> value is <b>at most</b> a given value.
    *
    * @param most
    *     The largest value (inclusive) that the <i>Stat</i> can have.

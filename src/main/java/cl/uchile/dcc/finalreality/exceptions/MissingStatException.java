@@ -9,6 +9,13 @@ import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
  */
 public class MissingStatException extends Exception {
 
+  /**
+   * Create a new {@link MissingStatException} with a {@code description} of the
+   * error.
+   *
+   * @param description
+   *     description of the error
+   */
   public MissingStatException(String description) {
     super(description);
   }

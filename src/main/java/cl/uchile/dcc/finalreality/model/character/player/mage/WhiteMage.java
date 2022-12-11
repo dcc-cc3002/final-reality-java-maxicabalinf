@@ -9,9 +9,9 @@
 package cl.uchile.dcc.finalreality.model.character.player.mage;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
-import cl.uchile.dcc.finalreality.model.character.Enemy;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
 import cl.uchile.dcc.finalreality.model.items.spell.Spell;
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
  * A {@link PlayerCharacter} that can equip {@code Staff}s and use <i>white magic</i>.
  *
  * @author <a href="https://www.github.com/r8vnhill">R8V</a>
- * @author ~Your name~
+ * @author <a href="https://www.github.com/maxicabalinf">Maximiliano Cabalín F.</a>
  */
 
 public class WhiteMage extends AbstractMage {
@@ -48,37 +48,23 @@ public class WhiteMage extends AbstractMage {
   }
 
   /**
-   * Cast a {@link Spell} to affect an {@link Enemy}.
+   * Cast the {@code equippedSpell} to affect a {@link GameCharacter}.
    *
-   * @param spell
-   *     the {@link Spell} to be cast
-   * @param character
-   *     the {@link Enemy} to be affected
-   *
-   */
-  @Override
-  public void cast(Spell spell, GameCharacter character) throws RestrictedSpellException {
-    spell.affect(character, this);
-  }
-
-  /**
-   * Cast the {@code equippedSpell} towards another {@link GameCharacter}.
-   */
-
-  /**
-   * Cast a {@link Spell} to affect  {@link GameCharacter}.
-   *
-   * @param character
+   * @param target
    *     the {@link GameCharacter} to recieve the {@link Spell}
    * @throws RestrictedSpellException
-   *     if
+   *     if this mage is unable to cast the {@link Spell}
    * @throws InvalidStatValueException
+   *     if an out-of-bounds value is set for the target stats
    */
   @Override
-  public void cast(GameCharacter character)
-      throws RestrictedSpellException, InvalidStatValueException {
-    equippedSpell.affect(character, this);
-    // TODO implement spell payment here
+  public void cast(GameCharacter target)
+      throws RestrictedSpellException, InvalidStatValueException, MissingStatException {
+    // The Mage must have enough Mp to cast the Spell.
+    if (getCurrentMp() - equippedSpell.getCost() >= 0) {
+      equippedSpell.affect(target, this);
+      setCurrentMp(getCurrentMp() - equippedSpell.getCost());
+    }
   }
 
   /**
