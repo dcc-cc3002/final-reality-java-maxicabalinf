@@ -1,9 +1,13 @@
 package cl.uchile.dcc.finalreality.model.character;
 
+import cl.uchile.dcc.finalreality.controller.GameController;
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
 import cl.uchile.dcc.finalreality.exceptions.Require;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,6 +19,8 @@ import org.jetbrains.annotations.NotNull;
 public class Enemy extends AbstractCharacter {
 
   private final int weight;
+  //TODO add state variable
+  //TODO add state methods
 
   /**
    * Creates a new enemy with a name, a weight and the queue with the characters ready to
@@ -29,10 +35,36 @@ public class Enemy extends AbstractCharacter {
   }
 
   /**
+   * Creates a new {@code thread} to add an {@code enemy} to a {@code queue} after some
+   * {@code delay} depending on its {@code weight}.
+   *
+   */
+  @Override
+  public void waitTurn() {
+    scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+    scheduledExecutor.schedule(
+      /* command = */ this::addToQueue,
+      /* delay = */ this.getWeight() / 10,
+      /* unit = */ TimeUnit.SECONDS);
+  }
+
+  /**
    * Returns the weight of this enemy.
    */
   public int getWeight() {
     return weight;
+  }
+
+  /**
+   * Attack another {@link GameCharacter}.
+   */
+  public void strike(GameCharacter character) throws InvalidStatValueException {
+    character.beAttacked(10);
+  }
+
+  @Override
+  public void checkCharacter(GameController game) throws InvalidTransitionException {
+    game.isEnemy();
   }
 
   @Override
@@ -44,10 +76,17 @@ public class Enemy extends AbstractCharacter {
       return false;
     }
     return hashCode() == enemy.hashCode()
+        && currentHp == enemy.currentHp
         && name.equals(enemy.name)
         && weight == enemy.weight
         && maxHp == enemy.maxHp
         && defense == enemy.defense;
+  }
+
+  @Override
+  public String toString() {
+    return "Enemy{maxHp=%d, currentHp=%d, defense=%d, weight=%d, name='%s'}".formatted(
+      maxHp, currentHp, defense, weight, name);
   }
 
   @Override

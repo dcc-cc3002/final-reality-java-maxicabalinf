@@ -28,7 +28,7 @@ public final class Require {
   }
 
   /**
-   * Checks if a given <i>Stat</i> value is <b>at least</b> a given value.
+   * Check if a given <i>Stat</i> value is <b>at least</b> a given value.
    *
    * @param least
    *     The smallest value (inclusive) that the <i>Stat</i> can have.
@@ -36,6 +36,7 @@ public final class Require {
    *     The actual value of the <i>Stat</i>.
    * @param statName
    *     The name of the <i>Stat</i>.
+   *     The character whose <i>Stat</i> value to change might be invalid.
    * @throws InvalidStatValueException
    *     If the {@code actualStat} is less than {@code least}.
    */
@@ -43,12 +44,14 @@ public final class Require {
       throws InvalidStatValueException {
     if (least > actualStat) {
       throw new InvalidStatValueException(
-          "'%s'(%d) must be at least %d".formatted(statName, actualStat, least));
+          "'%s'(%d) must be at least %d".formatted(statName, actualStat, least), least);
+
     }
   }
 
   /**
-   * Checks if a given <i>Stat</i> value is <b>at most</b> a given value.
+   * Check
+   * if a given <i>Stat</i> value is <b>at most</b> a given value.
    *
    * @param most
    *     The largest value (inclusive) that the <i>Stat</i> can have.
@@ -63,7 +66,7 @@ public final class Require {
       final String statName) throws InvalidStatValueException {
     if (most < actualStat) {
       throw new InvalidStatValueException(
-          "'%s'(%d) must be at most %d".formatted(statName, actualStat, most));
+          "'%s'(%d) must be at most %d".formatted(statName, actualStat, most), most);
     }
   }
 }
