@@ -1,11 +1,16 @@
 package cl.uchile.dcc.finalreality.model.items.spell;
 
+import static cl.uchile.dcc.finalreality.controller.GameController.rand;
+
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
 import cl.uchile.dcc.finalreality.model.items.weapon.Staff;
+
+import java.util.Objects;
 
 /**
  * A {@link Spell} that reduces the target's Hp by the {@link Staff}'s {@code magicDamage}. Has a
@@ -34,9 +39,10 @@ public class Thunder extends AbstractSpell {
    *     when the {@link BlackMage} cast an unavailable {@link Spell} for its class
    */
   public void affect(GameCharacter character, BlackMage blackMage)
-      throws RestrictedSpellException, InvalidStatValueException, MissingStatException {
-    character.beAttacked(blackMage.getEquippedWeapon().getMagicDamage());
-    // TODO implement probability
+    throws RestrictedSpellException, InvalidStatValueException, MissingStatException, NullWeaponException {
+    if (rand.nextInt(10) < 3) {
+      character.beAttacked(blackMage.getEquippedWeapon().getMagicDamage());
+    }
   }
 
   /**
@@ -50,5 +56,22 @@ public class Thunder extends AbstractSpell {
   @Override
   public void equipTo(BlackMage blackMage) throws RestrictedSpellException {
     blackMage.setEquippedSpell(this);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(Thunder.class, cost);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof final Thunder that)) {
+      return false;
+    }
+    return hashCode() == that.hashCode()
+      && cost == that.cost;
   }
 }

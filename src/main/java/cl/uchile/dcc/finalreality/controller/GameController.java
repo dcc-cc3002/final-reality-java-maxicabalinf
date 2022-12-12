@@ -7,11 +7,7 @@ import cl.uchile.dcc.finalreality.controller.state.GameState;
 import cl.uchile.dcc.finalreality.controller.state.PlayerChoice;
 import cl.uchile.dcc.finalreality.controller.state.UndeterminedCharacter;
 import cl.uchile.dcc.finalreality.controller.state.WaitingQueue;
-import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
-import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
-import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
-import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
-import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
+import cl.uchile.dcc.finalreality.exceptions.*;
 import cl.uchile.dcc.finalreality.model.character.Enemy;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
@@ -21,7 +17,7 @@ import cl.uchile.dcc.finalreality.model.character.player.mage.WhiteMage;
 import cl.uchile.dcc.finalreality.model.character.player.normal.Engineer;
 import cl.uchile.dcc.finalreality.model.character.player.normal.Knight;
 import cl.uchile.dcc.finalreality.model.character.player.normal.Thief;
-import cl.uchile.dcc.finalreality.model.items.spell.Spell;
+import cl.uchile.dcc.finalreality.model.items.spell.*;
 import cl.uchile.dcc.finalreality.model.items.weapon.Axe;
 import cl.uchile.dcc.finalreality.model.items.weapon.Bow;
 import cl.uchile.dcc.finalreality.model.items.weapon.Knife;
@@ -30,6 +26,7 @@ import cl.uchile.dcc.finalreality.model.items.weapon.Sword;
 import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
 import cl.uchile.dcc.finalreality.view.GameView;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -41,9 +38,11 @@ public class GameController {
   private final List<PlayerCharacter> playerCharacters;
   private final List<Enemy> enemyCharacters;
   private final GameView view;
-  private GameState state;
+  private GameState state = null;
   private GameCharacter actualCharacter;
   private static GameController gameInstance = null;
+
+  public static Random rand = new Random();
 
   /**
    * Create a {@link GameController} instance.
@@ -57,7 +56,6 @@ public class GameController {
     this.playerCharacters = playerCharacters;
     this.enemyCharacters = enemyCharacters;
     this.view = view;
-    this.state =  new WaitingQueue();
     this.actualCharacter = null;
   }
 
@@ -82,6 +80,7 @@ public class GameController {
       GameView view) {
     if (gameInstance == null) {
       gameInstance = new GameController(turnsQueue, playerCharacters, enemyCharacters, view);
+      gameInstance.setState(new WaitingQueue());
     }
     return gameInstance;
   }
@@ -179,13 +178,15 @@ public class GameController {
   }
 
   /**
-   * Begin timer for the {@code actualCharacter} to be enqueued in {@code turnsQueue}.
+   * Begin timer for the {@code actualCharacter} to be enqueued in {@code turnsQueue}. After that,
+   * returns the game to its initial state.
    *
    * @throws InvalidTransitionException
    *     if the game {@code state} does not allow this action
    */
-  public void beginTimer() throws InvalidTransitionException {
+  public void beginTimer() throws InvalidTransitionException, NullWeaponException {
     state.beginTimer();
+    actualCharacter = null;
   }
 
   /**
@@ -276,7 +277,7 @@ public class GameController {
   }
   // endregion
 
-  // region : CHARACTER CREATORS
+  // region : CHARACTER FACTORY
 
   /**
    * Create a new {@link Engineer} with the specified stats.
@@ -434,7 +435,7 @@ public class GameController {
   }
   // endregion
 
-  // region : WEAPON CREATORS
+  // region : WEAPON FACTORY
   /**
    * Create a {@link Axe} with the given stats.
    *
@@ -517,11 +518,70 @@ public class GameController {
     return new Sword(name, damage, weight);
   }
 
+  // endregion
   /**
    * Return the {@code actualCharacter} who's playing their turn.
    */
   public GameCharacter getActualCharacter() {
     return actualCharacter;
+  }
+
+  /**
+   * Return the actual Turns Queue in the game.
+   */
+  public BlockingQueue<GameCharacter> getTurnsQueue() {
+    return turnsQueue;
+  }
+
+  // region : SPELL FACTORY
+  /**
+   * Create a new {@link Cure} {@link Spell}.
+   *
+   * @return
+   *     the new spell
+   */
+  public Spell createCure() {
+    return new Cure();
+  }
+
+  /**
+   * Create a new {@link Fire} {@link Spell}.
+   *
+   * @return
+   *     the new spell
+   */
+  public Spell createFire() {
+    return new Fire();
+  }
+
+  /**
+   * Create a new {@link Paralyze} {@link Spell}.
+   *
+   * @return
+   *     the new spell
+   */
+  public Spell createParalyze() {
+    return new Paralyze();
+  }
+
+  /**
+   * Create a new {@link Thunder} {@link Spell}.
+   *
+   * @return
+   *     the new spell
+   */
+  public Spell createThunder() {
+    return new Thunder();
+  }
+
+  /**
+   * Create a new {@link Venom} {@link Spell}.
+   *
+   * @return
+   *     the new spell
+   */
+  public Spell createVenom() {
+    return new Venom();
   }
   // endregion
 
@@ -583,7 +643,7 @@ public class GameController {
    * @throws InvalidTransitionException
    *     if the game {@code state} does not allow this action
    */
-  public void strike() throws InvalidStatValueException, InvalidTransitionException {
+  public void strike() throws InvalidStatValueException, InvalidTransitionException, NullWeaponException {
     state.strike();
   }
 
@@ -602,7 +662,7 @@ public class GameController {
    *     if the game {@code state} does not allow this action
    */
   public void cast(Mage mage) throws RestrictedSpellException, InvalidStatValueException,
-      MissingStatException, InvalidTransitionException {
+    MissingStatException, InvalidTransitionException, NullWeaponException {
     state.cast(mage);
   }
   // endregion
@@ -613,9 +673,10 @@ public class GameController {
    * @param character
    *     the {@link GameCharacter} to be enqueued
    */
-  public void waitTurn(GameCharacter character) {
+  public void waitTurn(GameCharacter character) throws NullWeaponException {
     character.waitTurn();
   }
+
 
   /**
    * Run the game dynamic.
@@ -625,7 +686,7 @@ public class GameController {
    * @throws InterruptedException
    *     if a process related to {@code turnsQueue} is interrupted
    */
-  public void play() throws InvalidTransitionException, InterruptedException {
+  public void play() throws InvalidTransitionException, InterruptedException, NullWeaponException {
     // The game ends when it is in End of Game state.
     while (!inEndOfGame()) {
       // If there's a winner, the game should end.

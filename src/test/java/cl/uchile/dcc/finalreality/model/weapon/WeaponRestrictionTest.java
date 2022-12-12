@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
@@ -44,7 +45,7 @@ class WeaponRestrictionTest {
   }
 
   @Test
-  void equipTo() throws RestrictedWeaponException {
+  void equipTo() throws RestrictedWeaponException, NullWeaponException {
     // Sword
     knight.equip(sword); assertEquals(sword, knight.getEquippedWeapon());
     assertThrows(RestrictedWeaponException.class,

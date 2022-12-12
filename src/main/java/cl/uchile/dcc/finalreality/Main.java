@@ -4,6 +4,7 @@ import static cl.uchile.dcc.finalreality.controller.GameController.getGameContro
 
 import cl.uchile.dcc.finalreality.controller.GameController;
 import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.model.character.Enemy;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
@@ -31,7 +32,7 @@ public class Main {
    *     if a {@link BlockingQueue} operation is interrupted
    */
   public static void main(String[] args)
-      throws InvalidTransitionException, InterruptedException {
+    throws InvalidTransitionException, InterruptedException, NullWeaponException {
     BlockingQueue<GameCharacter> turnsQueue = new LinkedBlockingQueue<>();
     List<PlayerCharacter> playerCharacters = new ArrayList<>();
     List<Enemy> enemyCharacters = new ArrayList<>();

@@ -9,6 +9,7 @@
 package cl.uchile.dcc.finalreality.model.character.player;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.AbstractCharacter;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
@@ -58,7 +59,7 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
    *
    */
   @Override
-  public void waitTurn() {
+  public void waitTurn() throws NullWeaponException {
     scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
     scheduledExecutor.schedule(
       /* command = */ this::addToQueue,
@@ -76,7 +77,10 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
    * Returns the character's equipped weapon.
    */
   @Override
-  public Weapon getEquippedWeapon() {
+  public Weapon getEquippedWeapon() throws NullWeaponException {
+    if (equippedWeapon == null) {
+      throw new NullWeaponException();
+    }
     return equippedWeapon;
   }
 
@@ -91,7 +95,7 @@ public abstract class AbstractPlayerCharacter extends AbstractCharacter implemen
   /**
    * Attack another {@link GameCharacter}.
    */
-  public void strike(GameCharacter character) throws InvalidStatValueException {
+  public void strike(GameCharacter character) throws InvalidStatValueException, NullWeaponException {
     character.beAttacked(this.getEquippedWeapon().getDamage());
   }
 }

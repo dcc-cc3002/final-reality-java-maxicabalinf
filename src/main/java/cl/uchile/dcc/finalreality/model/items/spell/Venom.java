@@ -4,6 +4,8 @@ import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.WhiteMage;
 import cl.uchile.dcc.finalreality.model.character.state.Envenomed;
 
+import java.util.Objects;
+
 /**
  * A {@link Spell} that makes the target go to a {@link Envenomed} state. Costs 40 Mp.
  *
@@ -40,5 +42,22 @@ public class Venom extends AbstractSpell {
   @Override
   public void equipTo(WhiteMage whiteMage) {
     whiteMage.setEquippedSpell(this);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(Venom.class, cost);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof final Venom that)) {
+      return false;
+    }
+    return hashCode() == that.hashCode()
+      && cost == that.cost;
   }
 }

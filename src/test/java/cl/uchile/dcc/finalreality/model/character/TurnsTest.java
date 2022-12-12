@@ -3,6 +3,7 @@ package cl.uchile.dcc.finalreality.model.character;
 import static org.junit.jupiter.api.Assertions.*;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.player.normal.Thief;
 import cl.uchile.dcc.finalreality.model.items.weapon.Sword;
@@ -25,7 +26,8 @@ class TurnsTest extends Thread {
   }
 
   @Test
-  public void waitTurn() throws InterruptedException, RestrictedWeaponException {
+  public void waitTurn()
+      throws InterruptedException, RestrictedWeaponException, NullWeaponException {
     enemy.waitTurn();
     Thread.sleep(6000);
     assertTrue(queue.contains(enemy));

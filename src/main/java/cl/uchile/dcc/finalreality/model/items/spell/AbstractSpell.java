@@ -2,6 +2,7 @@ package cl.uchile.dcc.finalreality.model.items.spell;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
@@ -37,7 +38,7 @@ public abstract class AbstractSpell implements Spell {
    *     when the {@link BlackMage} cast an unavailable {@link Spell} for its class
    */
   public void affect(GameCharacter character, BlackMage blackMage)
-      throws RestrictedSpellException, InvalidStatValueException, MissingStatException {
+    throws RestrictedSpellException, InvalidStatValueException, MissingStatException, NullWeaponException {
     throw new RestrictedSpellException(
       "%ss cannot cast %ss.".formatted(
         blackMage.getClass().getSimpleName(), this.getClass().getSimpleName()
@@ -56,7 +57,7 @@ public abstract class AbstractSpell implements Spell {
    *     when the {@link WhiteMage} cast an unavailable {@link Spell} for its class
    */
   public void affect(GameCharacter character, WhiteMage whiteMage)
-      throws RestrictedSpellException, InvalidStatValueException, MissingStatException {
+    throws RestrictedSpellException, InvalidStatValueException, MissingStatException, NullWeaponException {
     throw new RestrictedSpellException(
       "%ss cannot cast %ss.".formatted(
         whiteMage.getClass().getSimpleName(), this.getClass().getSimpleName()

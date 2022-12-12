@@ -1,19 +1,17 @@
 package cl.uchile.dcc.finalreality.controller.state;
 
 import cl.uchile.dcc.finalreality.controller.GameController;
-import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
-import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
-import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
-import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
-import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
+import cl.uchile.dcc.finalreality.exceptions.*;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.Mage;
 import cl.uchile.dcc.finalreality.model.items.spell.Spell;
 import cl.uchile.dcc.finalreality.model.items.weapon.Staff;
 import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
 
+import java.util.Objects;
+
 /**
- * A Final Reality game is in {@code EnemyChoice} state if the {@code actualCharacter} playing
+ * A Final Reality game is in {@code PlayerChoice} state if the {@code actualCharacter} playing
  * its turn is a {@link PlayerCharacter}.
  *
  * @author <a href="https://www.github.com/maxicabalinf">Maximiliano Cabalín F.</a>
@@ -68,10 +66,15 @@ public class PlayerChoice extends AbstractTargetChoice {
    */
   @Override
   public void cast(Mage mage)
-      throws RestrictedSpellException, InvalidStatValueException,
-      MissingStatException, InvalidTransitionException {
-    mage.cast(target);
-    changeState(new FinishedTurn());
+    throws RestrictedSpellException, InvalidStatValueException,
+    MissingStatException, InvalidTransitionException, NullWeaponException {
+    if (target != null) {
+      mage.cast(target);
+      changeState(new FinishedTurn());
+    } else {
+      // You cannot cast if there is no target.
+      throw new InvalidTransitionException("Cannot cast with null target");
+    }
   }
 
   /**
@@ -80,5 +83,23 @@ public class PlayerChoice extends AbstractTargetChoice {
   @Override
   public boolean inPlayerChoice() {
     return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(PlayerChoice.class, game, target);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof final PlayerChoice that)) {
+      return false;
+    }
+    return hashCode() == that.hashCode()
+      && game == that.game
+      && target == that.target;
   }
 }

@@ -3,10 +3,10 @@ package cl.uchile.dcc.finalreality.model.character.player;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.*;
 import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
@@ -72,12 +72,12 @@ class PlayerCharactersTest {
   }
 
   @Test
-  void equip() throws RestrictedWeaponException {
-    assertNull(bmg.getEquippedWeapon());
-    assertNull(wmg.getEquippedWeapon());
-    assertNull(eng.getEquippedWeapon());
-    assertNull(kng.getEquippedWeapon());
-    assertNull(thf.getEquippedWeapon());
+  void equip() throws RestrictedWeaponException, NullWeaponException {
+    assertThrows(NullWeaponException.class, () -> bmg.getEquippedWeapon());
+    assertThrows(NullWeaponException.class, () -> wmg.getEquippedWeapon());
+    assertThrows(NullWeaponException.class, () -> eng.getEquippedWeapon());
+    assertThrows(NullWeaponException.class, () -> kng.getEquippedWeapon());
+    assertThrows(NullWeaponException.class, () -> thf.getEquippedWeapon());
     bmg.equip(staff);
     wmg.equip(staff);
     eng.equip(axe);
@@ -91,7 +91,7 @@ class PlayerCharactersTest {
   }
 
   @Test
-  void getEquippedWeapon() throws RestrictedWeaponException {
+  void getEquippedWeapon() throws RestrictedWeaponException, NullWeaponException {
     bmg.equip(knife);
     wmg.equip(staff);
     eng.equip(axe);

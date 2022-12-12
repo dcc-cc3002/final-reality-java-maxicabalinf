@@ -8,10 +8,7 @@
 
 package cl.uchile.dcc.finalreality.model.character.player.mage;
 
-import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
-import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
-import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
-import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
+import cl.uchile.dcc.finalreality.exceptions.*;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
 import cl.uchile.dcc.finalreality.model.items.spell.Spell;
@@ -59,8 +56,12 @@ public class WhiteMage extends AbstractMage {
    */
   @Override
   public void cast(GameCharacter target)
-      throws RestrictedSpellException, InvalidStatValueException, MissingStatException {
-    // The Mage must have enough Mp to cast the Spell.
+      throws RestrictedSpellException, InvalidStatValueException,
+      MissingStatException, NullWeaponException {
+    // The Mage must have enough Mp to cast the Spell, and must carry a Staff.
+    if (!getEquippedWeapon().isStaff()) {
+      throw new RestrictedSpellException("A Staff must be equipped to cast any Spell");
+    }
     if (getCurrentMp() - equippedSpell.getCost() >= 0) {
       equippedSpell.affect(target, this);
       setCurrentMp(getCurrentMp() - equippedSpell.getCost());

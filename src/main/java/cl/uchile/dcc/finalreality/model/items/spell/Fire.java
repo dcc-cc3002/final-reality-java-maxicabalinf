@@ -1,11 +1,16 @@
 package cl.uchile.dcc.finalreality.model.items.spell;
 
+import static cl.uchile.dcc.finalreality.controller.GameController.rand;
+
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
 import cl.uchile.dcc.finalreality.model.character.state.Burnt;
 import cl.uchile.dcc.finalreality.model.items.weapon.Staff;
+
+import java.util.Objects;
 
 /**
  * A {@link Spell} that makes the target go to a {@link Burnt} state. Reduces the target's
@@ -33,10 +38,11 @@ public class Fire extends AbstractSpell {
    */
   @Override
   public void affect(GameCharacter character, BlackMage blackMage)
-      throws InvalidStatValueException, MissingStatException {
+    throws InvalidStatValueException, MissingStatException, NullWeaponException {
     character.beAttacked(blackMage.getEquippedWeapon().getMagicDamage());
-    character.changeState(new Burnt());
-    // TODO implement probability
+    if (rand.nextInt(10) < 2) {
+      character.changeState(new Burnt());
+    }
   }
 
   /**
@@ -48,5 +54,22 @@ public class Fire extends AbstractSpell {
   @Override
   public void equipTo(BlackMage blackMage) {
     blackMage.setEquippedSpell(this);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(Fire.class, cost);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof final Fire that)) {
+      return false;
+    }
+    return hashCode() == that.hashCode()
+      && cost == that.cost;
   }
 }

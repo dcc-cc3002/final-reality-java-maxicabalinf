@@ -1,6 +1,7 @@
 package cl.uchile.dcc.finalreality.controller.state;
 
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
+import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -53,5 +54,22 @@ public class WaitingQueue extends AbstractGameState {
   @Override
   public boolean inWaitingQueue() {
     return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(WaitingQueue.class, game);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof final WaitingQueue that)) {
+      return false;
+    }
+    return hashCode() == that.hashCode()
+    && game == that.game;
   }
 }

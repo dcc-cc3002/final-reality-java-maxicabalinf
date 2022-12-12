@@ -2,6 +2,7 @@ package cl.uchile.dcc.finalreality.controller.state;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 
 /**
@@ -36,7 +37,7 @@ public abstract class AbstractTargetChoice extends AbstractGameState {
    */
   @Override
   public void strike()
-      throws InvalidStatValueException, InvalidTransitionException {
+    throws InvalidStatValueException, InvalidTransitionException, NullWeaponException {
     // A target must have been chosen previously.
     if (target != null) {
       // Strike the chosen target.

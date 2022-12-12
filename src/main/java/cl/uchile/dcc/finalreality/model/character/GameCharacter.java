@@ -3,6 +3,7 @@ package cl.uchile.dcc.finalreality.model.character;
 import cl.uchile.dcc.finalreality.controller.GameController;
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.model.character.state.Burnt;
 import cl.uchile.dcc.finalreality.model.character.state.CharacterState;
 import cl.uchile.dcc.finalreality.model.character.state.Envenomed;
@@ -21,7 +22,7 @@ public interface GameCharacter {
    * Sets a scheduled executor to make this character (thread) wait for {@code speed / 10}
    * seconds before adding the character to the queue.
    */
-  void waitTurn();
+  void waitTurn() throws NullWeaponException;
 
   /**
    * Returns this character's name.
@@ -56,7 +57,7 @@ public interface GameCharacter {
   /**
    * Attack another {@link GameCharacter}.
    */
-  void strike(GameCharacter character) throws InvalidStatValueException;
+  void strike(GameCharacter character) throws InvalidStatValueException, NullWeaponException;
 
   /**
    * Recieve attack from another {@link GameCharacter}. Reduces the characters {@code Hp}.

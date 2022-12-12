@@ -3,6 +3,7 @@ package cl.uchile.dcc.finalreality.model.character.state;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.items.spell.Paralyze;
 import cl.uchile.dcc.finalreality.model.items.spell.Spell;
+import java.util.Objects;
 
 /**
  * A {@link GameCharacter} is {@link Paralyzed} when it was applied the
@@ -22,5 +23,21 @@ public class Paralyzed extends AbstractCharacterState {
   @Override
   public boolean isParalyzed() {
     return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(Paralyzed.class);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof final Paralyzed that)) {
+      return false;
+    }
+    return hashCode() == that.hashCode();
   }
 }

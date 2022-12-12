@@ -2,6 +2,7 @@ package cl.uchile.dcc.finalreality.model.items.spell;
 
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
@@ -27,7 +28,7 @@ public interface Spell {
    *     when the {@link BlackMage} cast an unavailable {@link Spell} for its class
    */
   void affect(GameCharacter character, BlackMage blackMage)
-      throws RestrictedSpellException, InvalidStatValueException, MissingStatException;
+    throws RestrictedSpellException, InvalidStatValueException, MissingStatException, NullWeaponException;
 
   /**
    * Apply the current {@link Spell} with a {@link WhiteMage}.
@@ -40,7 +41,7 @@ public interface Spell {
    *     when the {@link WhiteMage} cast an unavailable {@link Spell} for its class
    */
   void affect(GameCharacter character, WhiteMage whiteMage)
-      throws RestrictedSpellException, InvalidStatValueException, MissingStatException;
+    throws RestrictedSpellException, InvalidStatValueException, MissingStatException, NullWeaponException;
 
   /**
    * Equip this {@link Spell} to a {@link BlackMage}.

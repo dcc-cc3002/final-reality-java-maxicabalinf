@@ -1,11 +1,7 @@
 package cl.uchile.dcc.finalreality.controller.state;
 
 import cl.uchile.dcc.finalreality.controller.GameController;
-import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
-import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
-import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
-import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
-import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
+import cl.uchile.dcc.finalreality.exceptions.*;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.Mage;
@@ -95,7 +91,7 @@ public abstract class AbstractGameState implements GameState {
    *     if the game {@code state} does not allow this action
    */
   @Override
-  public void beginTimer() throws InvalidTransitionException {
+  public void beginTimer() throws InvalidTransitionException, NullWeaponException {
     error();
   }
 
@@ -195,7 +191,7 @@ public abstract class AbstractGameState implements GameState {
    *     if the game {@code state} does not allow this action
    */
   @Override
-  public void strike() throws InvalidStatValueException, InvalidTransitionException {
+  public void strike() throws InvalidStatValueException, InvalidTransitionException, NullWeaponException {
     error();
   }
 
@@ -215,7 +211,7 @@ public abstract class AbstractGameState implements GameState {
    */
   @Override
   public void cast(Mage mage) throws RestrictedSpellException, InvalidStatValueException,
-      MissingStatException, InvalidTransitionException {
+    MissingStatException, InvalidTransitionException, NullWeaponException {
     error();
   }
   // endregion

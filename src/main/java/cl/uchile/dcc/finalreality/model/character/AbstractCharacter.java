@@ -3,6 +3,7 @@ package cl.uchile.dcc.finalreality.model.character;
 import cl.uchile.dcc.finalreality.controller.GameController;
 import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
 import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.exceptions.Require;
 import cl.uchile.dcc.finalreality.model.character.state.Burnt;
 import cl.uchile.dcc.finalreality.model.character.state.CharacterState;
@@ -59,7 +60,7 @@ public abstract class AbstractCharacter implements GameCharacter {
    *
    */
   @Override
-  public abstract void waitTurn();
+  public abstract void waitTurn() throws NullWeaponException;
 
   /**
    * Adds this character to the turns queue.
@@ -129,13 +130,13 @@ public abstract class AbstractCharacter implements GameCharacter {
   /**
    * Attack another {@link GameCharacter}.
    */
-  public abstract void strike(GameCharacter character) throws InvalidStatValueException;
+  public abstract void strike(GameCharacter character) throws InvalidStatValueException, NullWeaponException;
 
   /**
    * Recieve attack from another {@link GameCharacter}. Reduces the characters {@code Hp}.
    */
   public void beAttacked(int damage) throws InvalidStatValueException {
-    setCurrentHp(Math.max(getCurrentHp() - damage, 0));
+    setCurrentHp(Math.min(getMaxHp(), Math.max(getCurrentHp() - damage, 0)));
   }
 
   /**
