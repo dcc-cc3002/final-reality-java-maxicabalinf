@@ -1,7 +1,6 @@
 package cl.uchile.dcc.finalreality.controller.state;
 
 import cl.uchile.dcc.finalreality.model.character.Enemy;
-
 import java.util.Objects;
 
 /**

@@ -7,7 +7,12 @@ import cl.uchile.dcc.finalreality.controller.state.GameState;
 import cl.uchile.dcc.finalreality.controller.state.PlayerChoice;
 import cl.uchile.dcc.finalreality.controller.state.UndeterminedCharacter;
 import cl.uchile.dcc.finalreality.controller.state.WaitingQueue;
-import cl.uchile.dcc.finalreality.exceptions.*;
+import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.Enemy;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
@@ -17,7 +22,12 @@ import cl.uchile.dcc.finalreality.model.character.player.mage.WhiteMage;
 import cl.uchile.dcc.finalreality.model.character.player.normal.Engineer;
 import cl.uchile.dcc.finalreality.model.character.player.normal.Knight;
 import cl.uchile.dcc.finalreality.model.character.player.normal.Thief;
-import cl.uchile.dcc.finalreality.model.items.spell.*;
+import cl.uchile.dcc.finalreality.model.items.spell.Cure;
+import cl.uchile.dcc.finalreality.model.items.spell.Fire;
+import cl.uchile.dcc.finalreality.model.items.spell.Paralyze;
+import cl.uchile.dcc.finalreality.model.items.spell.Spell;
+import cl.uchile.dcc.finalreality.model.items.spell.Thunder;
+import cl.uchile.dcc.finalreality.model.items.spell.Venom;
 import cl.uchile.dcc.finalreality.model.items.weapon.Axe;
 import cl.uchile.dcc.finalreality.model.items.weapon.Bow;
 import cl.uchile.dcc.finalreality.model.items.weapon.Knife;
@@ -83,6 +93,13 @@ public class GameController {
       gameInstance.setState(new WaitingQueue());
     }
     return gameInstance;
+  }
+
+  /**
+   * Reset the game instance to null.
+   */
+  public void resetGame() {
+    gameInstance = null;
   }
 
   /**
@@ -294,14 +311,10 @@ public class GameController {
    *     if any of the given stats is out of bounds
    */
   public PlayerCharacter createEngineer(String name, int maxHp, int defense)
-      throws InvalidStatValueException {
-    Weapon weapon = new Sword("sword", 20, 20);
+      throws InvalidStatValueException, RestrictedWeaponException {
+    Weapon weapon = new Axe("axe", 20, 20);
     PlayerCharacter engineer = new Engineer(name, maxHp, defense, turnsQueue);
-    try {
-      engineer.equip(weapon);
-    } catch (RestrictedWeaponException e) {
-      // Engineers are able to equip Swords.
-    }
+    engineer.equip(weapon);
     return engineer;
   }
 
@@ -320,14 +333,10 @@ public class GameController {
    *     if any of the given stats is out of bounds
    */
   public PlayerCharacter createKnight(String name, int maxHp, int defense)
-      throws InvalidStatValueException {
+      throws InvalidStatValueException, RestrictedWeaponException {
     Weapon weapon = new Sword("sword", 20, 20);
     PlayerCharacter knight = new Knight(name, maxHp, defense, turnsQueue);
-    try {
-      knight.equip(weapon);
-    } catch (RestrictedWeaponException e) {
-      // Knights are able to equip Swords.
-    }
+    knight.equip(weapon);
     return knight;
   }
 
@@ -346,14 +355,10 @@ public class GameController {
    *     if any of the given stats is out of bounds
    */
   public PlayerCharacter createThief(String name, int maxHp, int defense)
-      throws InvalidStatValueException {
+      throws InvalidStatValueException, RestrictedWeaponException {
     Weapon weapon = new Sword("sword", 20, 20);
     PlayerCharacter thief = new Thief(name, maxHp, defense, turnsQueue);
-    try {
-      thief.equip(weapon);
-    } catch (RestrictedWeaponException e) {
-      // Thiefs are able to equip Swords.
-    }
+    thief.equip(weapon);
     return thief;
   }
 
@@ -374,14 +379,10 @@ public class GameController {
    *     if any of the given stats is out of bounds
    */
   public Mage createBlackMage(String name, int maxHp, int maxMp, int defense)
-      throws InvalidStatValueException {
+      throws InvalidStatValueException, RestrictedWeaponException {
     Weapon weapon = new Staff("staff", 20, 20, 20);
     Mage blackMage = new BlackMage(name, maxHp, defense, maxMp, turnsQueue);
-    try {
-      blackMage.equip(weapon);
-    } catch (RestrictedWeaponException e) {
-      // BlackMages are able to equip Staves.
-    }
+    blackMage.equip(weapon);
     return blackMage;
   }
 
@@ -402,14 +403,10 @@ public class GameController {
    *     if any of the given stats is out of bounds
    */
   public Mage createWhiteMage(String name, int maxHp, int maxMp, int defense)
-      throws InvalidStatValueException {
+      throws InvalidStatValueException, RestrictedWeaponException {
     Weapon weapon = new Staff("staff", 20, 20, 20);
     Mage whiteMage = new WhiteMage(name, maxHp, defense, maxMp, turnsQueue);
-    try {
-      whiteMage.equip(weapon);
-    } catch (RestrictedWeaponException e) {
-      // WhiteMages are able to equip Staves.
-    }
+    whiteMage.equip(weapon);
     return whiteMage;
   }
 
@@ -643,7 +640,8 @@ public class GameController {
    * @throws InvalidTransitionException
    *     if the game {@code state} does not allow this action
    */
-  public void strike() throws InvalidStatValueException, InvalidTransitionException, NullWeaponException {
+  public void strike() throws InvalidStatValueException,
+      InvalidTransitionException, NullWeaponException {
     state.strike();
   }
 
@@ -662,7 +660,7 @@ public class GameController {
    *     if the game {@code state} does not allow this action
    */
   public void cast(Mage mage) throws RestrictedSpellException, InvalidStatValueException,
-    MissingStatException, InvalidTransitionException, NullWeaponException {
+      MissingStatException, InvalidTransitionException, NullWeaponException {
     state.cast(mage);
   }
   // endregion

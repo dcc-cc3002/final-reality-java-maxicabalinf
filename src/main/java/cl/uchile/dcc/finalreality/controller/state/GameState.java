@@ -1,7 +1,12 @@
 package cl.uchile.dcc.finalreality.controller.state;
 
 import cl.uchile.dcc.finalreality.controller.GameController;
-import cl.uchile.dcc.finalreality.exceptions.*;
+import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.Mage;
@@ -24,6 +29,11 @@ public interface GameState {
    *     the {@link GameController} to be associated
    */
   void setGame(GameController game);
+
+  /**
+   * Return the associated game.
+   */
+  GameController getGame();
 
   /**
    * Change the state of the associated {@link GameController}.
@@ -151,7 +161,7 @@ public interface GameState {
    *     if the game {@code state} does not allow this action
    */
   void strike()
-    throws InvalidStatValueException, InvalidTransitionException, NullWeaponException;
+      throws InvalidStatValueException, InvalidTransitionException, NullWeaponException;
 
   /**
    * Tell a {@link Mage} to cast its {@code equippedSpell} towards the chosen {@code target}.
@@ -168,7 +178,7 @@ public interface GameState {
    *     if the game {@code state} does not allow this action
    */
   void cast(Mage mage) throws RestrictedSpellException, InvalidStatValueException,
-    MissingStatException, InvalidTransitionException, NullWeaponException;
+      MissingStatException, InvalidTransitionException, NullWeaponException;
   // endregion
 
   // region : STATE VERIFIERS

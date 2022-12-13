@@ -19,6 +19,19 @@ public interface CharacterState {
   void setCharacter(GameCharacter character);
 
   /**
+   * Return the associated character of this state.
+   */
+  GameCharacter getCharacter();
+
+  /**
+   * Change the state of the associated {@link GameCharacter}.
+   *
+   * @param state
+   *     the {@link CharacterState} to update to the actual associated {@link GameCharacter}
+   */
+  void changeState(CharacterState state);
+
+  /**
    * Tell if the associated {@link GameCharacter} is {@link Burnt}.
    *
    * @return

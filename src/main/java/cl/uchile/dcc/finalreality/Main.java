@@ -32,7 +32,7 @@ public class Main {
    *     if a {@link BlockingQueue} operation is interrupted
    */
   public static void main(String[] args)
-    throws InvalidTransitionException, InterruptedException, NullWeaponException {
+      throws InvalidTransitionException, InterruptedException, NullWeaponException {
     BlockingQueue<GameCharacter> turnsQueue = new LinkedBlockingQueue<>();
     List<PlayerCharacter> playerCharacters = new ArrayList<>();
     List<Enemy> enemyCharacters = new ArrayList<>();

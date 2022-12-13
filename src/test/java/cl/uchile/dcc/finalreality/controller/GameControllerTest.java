@@ -17,6 +17,7 @@ import cl.uchile.dcc.finalreality.model.character.player.normal.Thief;
 import cl.uchile.dcc.finalreality.model.items.spell.*;
 import cl.uchile.dcc.finalreality.model.items.weapon.*;
 import cl.uchile.dcc.finalreality.view.GameView;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
@@ -43,6 +44,132 @@ class GameControllerTest {
     controller = getGameController(
       turnsQueue, playerCharacters, enemyCharacters, view
     );
+  }
+
+  @AfterEach
+  void reset() {
+    controller.resetGame();
+  }
+
+  @Test
+  void playEnemy() throws InvalidTransitionException, NullWeaponException, InterruptedException, MissingStatException, RestrictedSpellException, InvalidStatValueException, RestrictedWeaponException {
+    // region : SET GAME ENVIRONMENT AND GO TO ENEMY CHOICE
+    // Weights set so the two enemies come first. All PlayerCharacters all set to have weight = 20
+    // by default.
+    PlayerCharacter bMage = controller.createBlackMage(
+      "bMage", 20, 40, 20);
+    playerCharacters.add(bMage);
+    Enemy enemy1 = controller.createEnemy("enemy1", 14, 20, 14);
+    enemyCharacters.add(enemy1);
+    Enemy enemy2 = controller.createEnemy("enemy2", 14, 20, 14);
+    enemyCharacters.add(enemy2);
+
+    // At the beggining of a turn, the game should be in WaitingQueue state.
+    assertTrue(controller.inWaitingQueue());
+
+    //// No character in the turnsQueue yet, so emptyQueue() should be true.
+    assertTrue(controller.emptyQueue());
+
+    //// Enqueue all characters.
+    for (GameCharacter character : playerCharacters) {
+      controller.waitTurn(character);
+    }
+    for (GameCharacter character : enemyCharacters) {
+      controller.waitTurn(character);
+    }
+    Thread.sleep(6000);
+
+    //// It should be able to execute pickUpCharacter() too.
+    controller.pickUpCharacter();
+
+    // After that, the game should be in UndeterminedCharacter state. It should be able to
+    // execute checkCharacter().
+    assertTrue(controller.inUndeterminedCharacter());
+    controller.checkCharacter();
+
+    // Now, the game should be in PlayerChoice state. User actions must be available
+    assertTrue(controller.inEnemyChoice());
+    // endregion
+
+    // region : USER ACTIONS
+    // Strike cannot happen if there is no selected Target.
+    assertThrows(InvalidTransitionException.class,
+      () -> controller.strike()
+    );
+
+    // After setting a Target, an attack can be executed.
+    //// Setting target
+    controller.setTarget(playerCharacters.get(0));
+
+    //// Save previous stats for comparison.
+    int previousHp = playerCharacters.get(0).getCurrentHp();
+
+    //// Execute attack.
+    controller.strike();
+
+    //// Verify effect.
+    assertEquals(Math.max(previousHp - 10, 0),
+      playerCharacters.get(0).getCurrentHp()
+    );
+    // endregion
+
+    // region : AFTER USER
+    // Game now should be in FinishedTurn state.
+    assertTrue(controller.inFinishedTurn());
+
+    // As the player finished its turn, is has to return to the queue.
+    //// The Black Mage still is not in the turnsQueue
+    GameCharacter character = controller.getActualCharacter();
+    BlockingQueue<GameCharacter> queue = controller.getTurnsQueue();
+    assertFalse(queue.contains(character));
+
+    //// Now it should be.
+    controller.beginTimer();
+    Thread.sleep(6000);
+    queue = controller.getTurnsQueue();
+    assertTrue(queue.contains(character));
+
+    // Now the game returns to its initial state.
+    assertNull(controller.getActualCharacter());
+    assertTrue(controller.inWaitingQueue());
+
+    // The mage Hp was 20 initially, and the attack was 10, so it should be 10.
+    assertEquals(10, playerCharacters.get(0).getCurrentHp());
+
+    // There should be no winner yet, so it should be impossible to end the game.
+    assertFalse(controller.checkWinner());
+    assertFalse(controller.inEndOfGame());
+
+    // Continue with the other characters waiting. Everything will be executed again.
+    assertTrue(controller.inWaitingQueue());
+    assertFalse(controller.emptyQueue());
+    controller.pickUpCharacter();
+    assertTrue(controller.inUndeterminedCharacter());
+    controller.checkCharacter();
+    assertTrue(controller.inEnemyChoice());
+    assertFalse(controller.inPlayerChoice()); // Just to make sure.
+    controller.setTarget(playerCharacters.get(0));
+    previousHp = playerCharacters.get(0).getCurrentHp();
+    controller.strike();
+    assertEquals(Math.max(previousHp - 10, 0),
+      playerCharacters.get(0).getCurrentHp()
+    );
+    assertTrue(controller.inFinishedTurn());
+    character = controller.getActualCharacter();
+    queue = controller.getTurnsQueue();
+    assertFalse(queue.contains(character));
+    controller.beginTimer(); // Turn end.
+    Thread.sleep(6000);
+    queue = controller.getTurnsQueue();
+    assertTrue(queue.contains(character));
+    assertNull(controller.getActualCharacter());
+    assertTrue(controller.inWaitingQueue());
+
+    // By now, the mage has recieved two attacks of damage = 10, with initialHp = 20, so it should
+    // be dead.
+    assertTrue(controller.checkWinner());
+    assertTrue(controller.inEndOfGame());
+    // endregion
   }
 
   @Test
@@ -187,7 +314,7 @@ class GameControllerTest {
   }
 
   @Test
-  void characterFactory() throws InvalidStatValueException {
+  void characterFactory() throws InvalidStatValueException, RestrictedWeaponException {
     String name = "character";
     int maxHp = 12, maxMp = 74, defense = 56, weight = 46;
 

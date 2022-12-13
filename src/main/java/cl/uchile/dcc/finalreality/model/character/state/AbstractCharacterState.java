@@ -24,12 +24,21 @@ public abstract class AbstractCharacterState implements CharacterState {
   }
 
   /**
+   * Return the associated character of this state.
+   */
+  @Override
+  public GameCharacter getCharacter() {
+    return character;
+  }
+
+  /**
    * Change the state of the associated {@link GameCharacter}.
    *
    * @param state
    *     the {@link CharacterState} to update to the actual associated {@link GameCharacter}
    */
-  protected void changeState(CharacterState state) {
+  @Override
+  public void changeState(CharacterState state) {
     character.changeState(state);
   }
 

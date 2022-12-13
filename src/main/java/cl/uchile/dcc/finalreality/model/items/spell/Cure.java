@@ -7,7 +7,6 @@ import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
 import cl.uchile.dcc.finalreality.model.character.player.mage.WhiteMage;
-
 import java.util.Objects;
 
 /**
@@ -35,8 +34,8 @@ public class Cure extends AbstractSpell {
    */
   @Override
   public void affect(GameCharacter character, WhiteMage whiteMage)
-    throws InvalidStatValueException, MissingStatException, NullWeaponException {
-    character.beAttacked(- (int) Math.floor(character.getMaxHp()*0.3));
+      throws InvalidStatValueException, MissingStatException, NullWeaponException {
+    character.beAttacked(- (int) Math.floor(character.getMaxHp() * 0.3));
   }
 
   /**

@@ -8,7 +8,11 @@
 
 package cl.uchile.dcc.finalreality.model.character.player.mage;
 
-import cl.uchile.dcc.finalreality.exceptions.*;
+import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.items.spell.Spell;
 import cl.uchile.dcc.finalreality.model.items.weapon.Staff;
@@ -56,7 +60,8 @@ public class BlackMage extends AbstractMage {
    */
   @Override
   public void cast(GameCharacter target)
-      throws RestrictedSpellException, InvalidStatValueException, MissingStatException, NullWeaponException {
+      throws RestrictedSpellException, InvalidStatValueException,
+      MissingStatException, NullWeaponException {
     // The Mage must have enough Mp to cast the Spell, and must carry a Staff.
     if (!getEquippedWeapon().isStaff()) {
       throw new RestrictedSpellException("A Staff must be equipped to cast any Spell");

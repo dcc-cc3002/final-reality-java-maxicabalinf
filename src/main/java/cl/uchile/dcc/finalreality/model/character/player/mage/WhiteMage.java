@@ -8,7 +8,11 @@
 
 package cl.uchile.dcc.finalreality.model.character.player.mage;
 
-import cl.uchile.dcc.finalreality.exceptions.*;
+import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
 import cl.uchile.dcc.finalreality.model.items.spell.Spell;

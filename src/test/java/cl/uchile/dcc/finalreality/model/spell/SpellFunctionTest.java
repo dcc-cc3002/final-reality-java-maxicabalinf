@@ -115,7 +115,7 @@ class SpellFunctionTest {
 
     //// Staff will be equipped from now on. Casts are enabled then.
     blackMage.equip(staff);
-    ensureRand(30, 100);
+    ensureRand(3, 10);
     blackMage.cast(enemy);
     assertEquals(
       previousEnemyHp - blackMage.getEquippedWeapon().getMagicDamage(),

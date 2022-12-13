@@ -9,7 +9,6 @@ import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
 import cl.uchile.dcc.finalreality.model.character.state.Burnt;
 import cl.uchile.dcc.finalreality.model.items.weapon.Staff;
-
 import java.util.Objects;
 
 /**
@@ -38,7 +37,7 @@ public class Fire extends AbstractSpell {
    */
   @Override
   public void affect(GameCharacter character, BlackMage blackMage)
-    throws InvalidStatValueException, MissingStatException, NullWeaponException {
+      throws InvalidStatValueException, MissingStatException, NullWeaponException {
     character.beAttacked(blackMage.getEquippedWeapon().getMagicDamage());
     if (rand.nextInt(10) < 2) {
       character.changeState(new Burnt());

@@ -9,7 +9,6 @@ import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.BlackMage;
 import cl.uchile.dcc.finalreality.model.items.weapon.Staff;
-
 import java.util.Objects;
 
 /**
@@ -39,7 +38,8 @@ public class Thunder extends AbstractSpell {
    *     when the {@link BlackMage} cast an unavailable {@link Spell} for its class
    */
   public void affect(GameCharacter character, BlackMage blackMage)
-    throws RestrictedSpellException, InvalidStatValueException, MissingStatException, NullWeaponException {
+      throws RestrictedSpellException, InvalidStatValueException,
+      MissingStatException, NullWeaponException {
     if (rand.nextInt(10) < 3) {
       character.beAttacked(blackMage.getEquippedWeapon().getMagicDamage());
     }

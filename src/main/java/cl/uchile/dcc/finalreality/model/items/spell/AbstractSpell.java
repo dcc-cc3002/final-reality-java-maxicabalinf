@@ -38,7 +38,8 @@ public abstract class AbstractSpell implements Spell {
    *     when the {@link BlackMage} cast an unavailable {@link Spell} for its class
    */
   public void affect(GameCharacter character, BlackMage blackMage)
-    throws RestrictedSpellException, InvalidStatValueException, MissingStatException, NullWeaponException {
+      throws RestrictedSpellException, InvalidStatValueException,
+      MissingStatException, NullWeaponException {
     throw new RestrictedSpellException(
       "%ss cannot cast %ss.".formatted(
         blackMage.getClass().getSimpleName(), this.getClass().getSimpleName()
@@ -57,7 +58,8 @@ public abstract class AbstractSpell implements Spell {
    *     when the {@link WhiteMage} cast an unavailable {@link Spell} for its class
    */
   public void affect(GameCharacter character, WhiteMage whiteMage)
-    throws RestrictedSpellException, InvalidStatValueException, MissingStatException, NullWeaponException {
+      throws RestrictedSpellException, InvalidStatValueException,
+      MissingStatException, NullWeaponException {
     throw new RestrictedSpellException(
       "%ss cannot cast %ss.".formatted(
         whiteMage.getClass().getSimpleName(), this.getClass().getSimpleName()

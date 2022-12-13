@@ -130,7 +130,8 @@ public abstract class AbstractCharacter implements GameCharacter {
   /**
    * Attack another {@link GameCharacter}.
    */
-  public abstract void strike(GameCharacter character) throws InvalidStatValueException, NullWeaponException;
+  public abstract void strike(GameCharacter character)
+      throws InvalidStatValueException, NullWeaponException;
 
   /**
    * Recieve attack from another {@link GameCharacter}. Reduces the characters {@code Hp}.

@@ -2,7 +2,6 @@ package cl.uchile.dcc.finalreality.controller.state;
 
 import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
 import cl.uchile.dcc.finalreality.model.items.spell.Spell;
-
 import java.util.Objects;
 
 /**
@@ -18,7 +17,7 @@ public class FinishedTurn extends AbstractGameState {
    */
   @Override
   public void beginTimer() throws NullWeaponException {
-    game.getActualCharacter().waitTurn();
+    game.waitTurn(game.getActualCharacter());
     this.changeState(new WaitingQueue());
   }
 

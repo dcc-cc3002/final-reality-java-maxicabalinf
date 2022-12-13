@@ -17,7 +17,8 @@ import cl.uchile.dcc.finalreality.model.items.weapon.Staff;
 public interface Mage extends PlayerCharacter {
 
   void cast(GameCharacter character)
-    throws RestrictedSpellException, InvalidStatValueException, MissingStatException, NullWeaponException;
+      throws RestrictedSpellException, InvalidStatValueException,
+      MissingStatException, NullWeaponException;
 
   void equip(Spell spell) throws RestrictedSpellException;
 

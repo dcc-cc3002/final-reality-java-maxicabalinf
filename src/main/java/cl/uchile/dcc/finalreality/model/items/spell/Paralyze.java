@@ -3,7 +3,6 @@ package cl.uchile.dcc.finalreality.model.items.spell;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.WhiteMage;
 import cl.uchile.dcc.finalreality.model.character.state.Paralyzed;
-
 import java.util.Objects;
 
 /**

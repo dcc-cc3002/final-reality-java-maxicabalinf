@@ -1,13 +1,17 @@
 package cl.uchile.dcc.finalreality.controller.state;
 
 import cl.uchile.dcc.finalreality.controller.GameController;
-import cl.uchile.dcc.finalreality.exceptions.*;
+import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.InvalidTransitionException;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.mage.Mage;
 import cl.uchile.dcc.finalreality.model.items.spell.Spell;
 import cl.uchile.dcc.finalreality.model.items.weapon.Staff;
 import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
-
 import java.util.Objects;
 
 /**
@@ -66,8 +70,8 @@ public class PlayerChoice extends AbstractTargetChoice {
    */
   @Override
   public void cast(Mage mage)
-    throws RestrictedSpellException, InvalidStatValueException,
-    MissingStatException, InvalidTransitionException, NullWeaponException {
+      throws RestrictedSpellException, InvalidStatValueException,
+      MissingStatException, InvalidTransitionException, NullWeaponException {
     if (target != null) {
       mage.cast(target);
       changeState(new FinishedTurn());

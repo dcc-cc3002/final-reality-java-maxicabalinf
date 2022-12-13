@@ -37,7 +37,7 @@ public abstract class AbstractTargetChoice extends AbstractGameState {
    */
   @Override
   public void strike()
-    throws InvalidStatValueException, InvalidTransitionException, NullWeaponException {
+      throws InvalidStatValueException, InvalidTransitionException, NullWeaponException {
     // A target must have been chosen previously.
     if (target != null) {
       // Strike the chosen target.

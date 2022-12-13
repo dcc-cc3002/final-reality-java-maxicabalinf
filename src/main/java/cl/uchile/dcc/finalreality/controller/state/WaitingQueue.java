@@ -70,6 +70,6 @@ public class WaitingQueue extends AbstractGameState {
       return false;
     }
     return hashCode() == that.hashCode()
-    && game == that.game;
+      && game == that.game;
   }
 }

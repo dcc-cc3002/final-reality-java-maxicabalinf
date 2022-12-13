@@ -1,6 +1,10 @@
 package cl.uchile.dcc.finalreality.model.character.player.mage;
 
-import cl.uchile.dcc.finalreality.exceptions.*;
+import cl.uchile.dcc.finalreality.exceptions.InvalidStatValueException;
+import cl.uchile.dcc.finalreality.exceptions.MissingStatException;
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
+import cl.uchile.dcc.finalreality.exceptions.Require;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedSpellException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.AbstractPlayerCharacter;
 import cl.uchile.dcc.finalreality.model.character.player.PlayerCharacter;
@@ -53,7 +57,8 @@ public abstract class AbstractMage extends AbstractPlayerCharacter implements Ma
    * Cast the {@code equippedSpell} towards another {@link GameCharacter}.
    */
   public abstract void cast(GameCharacter character)
-    throws RestrictedSpellException, InvalidStatValueException, MissingStatException, NullWeaponException;
+      throws RestrictedSpellException, InvalidStatValueException,
+      MissingStatException, NullWeaponException;
   // endregion
 
   // region : ACCESSORS

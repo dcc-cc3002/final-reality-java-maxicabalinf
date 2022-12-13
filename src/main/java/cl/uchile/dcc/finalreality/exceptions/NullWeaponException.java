@@ -7,7 +7,7 @@ import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
  *
  * @author <a href="https://www.github.com/maxicabalinf">Maximiliano Cabalin F.</a>
  */
-public class NullWeaponException extends Exception{
+public class NullWeaponException extends Exception {
 
   /**
    * Create a new {@link NullWeaponException}.
