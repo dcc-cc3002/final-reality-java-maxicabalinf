@@ -8,20 +8,25 @@ package cl.uchile.dcc.finalreality.model.character.player;
  * work. If not, see <http://creativecommons.org/licenses/by/4.0/>.
  */
 
+import cl.uchile.dcc.finalreality.exceptions.NullWeaponException;
+import cl.uchile.dcc.finalreality.exceptions.RestrictedWeaponException;
 import cl.uchile.dcc.finalreality.model.character.GameCharacter;
-import cl.uchile.dcc.finalreality.model.weapon.Weapon;
+import cl.uchile.dcc.finalreality.model.items.weapon.Weapon;
 
 /**
  * A {@link GameCharacter} that can equip a weapon.
  */
 public interface PlayerCharacter extends GameCharacter {
+
   /**
    * Equips a weapon to the character.
    */
-  void equip(Weapon weapon);
+  void equip(Weapon weapon) throws RestrictedWeaponException;
 
   /**
    * Return this character's equipped weapon.
    */
-  Weapon getEquippedWeapon();
+  Weapon getEquippedWeapon() throws NullWeaponException;
+
+  void setEquippedWeapon(Weapon weapon);
 }
